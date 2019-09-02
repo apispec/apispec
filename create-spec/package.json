@@ -1,0 +1,16 @@
+{
+  "name": "create-spec",
+  "version": "0.0.0",
+  "bin": {
+    "create-spec": "./index.js"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/apispec/apispec",
+  "author": "azahnen",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^3.0.1",
+    "fs-extra": "^8.1.0",
+    "validate-npm-package-name": "^3.0.0"
+  }
+}

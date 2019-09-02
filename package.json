@@ -1,0 +1,13 @@
+{
+  "name": "apispec",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist"
+  },
+  "devDependencies": {
+    "lerna": "^3.16.4"
+  },
+  "workspaces": [
+    "*"
+  ]
+}
