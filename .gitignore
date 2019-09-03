@@ -61,3 +61,9 @@ typings/
 .next
 
 *.code-workspace
+
+report-generator/bin/
+report-generator/dist/
+report-generator/lib/
+
+**/node_modules

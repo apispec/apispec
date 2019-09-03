@@ -1,0 +1,12 @@
+{
+  "name": "myspec",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "mocha",
+    "postinstall": "patch-package --patch-dir ../node_modules/@apispec/runner/patches"
+  },
+  "dependencies": {
+    "@apispec/runner": "^0.0.0"
+  }
+}

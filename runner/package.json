@@ -7,9 +7,11 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@apispec/report-generator": "0.0.0",
     "mocha": "^6.2.0",
     "mochawesome": "^4.1.0",
     "patch-package": "^6.1.2",
-    "postinstall-postinstall": "^2.0.0"
+    "postinstall-postinstall": "^2.0.0",
+    "supertest": "^4.0.2"
   }
 }

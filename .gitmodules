@@ -1,0 +1,3 @@
+[submodule "report-generator/mochawesome-report-generator"]
+	path = report-generator/mochawesome-report-generator
+	url = git@github.com:apispec/mochawesome-report-generator.git

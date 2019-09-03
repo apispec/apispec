@@ -1,0 +1,154 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 2,
+    "passes": 1,
+    "pending": 0,
+    "failures": 1,
+    "start": "2019-09-03T14:21:04.107Z",
+    "end": "2019-09-03T14:21:04.211Z",
+    "duration": 104,
+    "testsRegistered": 2,
+    "passPercent": 50,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "db386bad-019d-4a96-bbaa-90617a4fd3d4",
+      "title": "",
+      "options": {},
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fdb649ef-f106-4f9c-9e87-b7a0ff4a529d",
+          "title": "OGC API",
+          "options": {},
+          "fullFile": "/home/zahnen/development/apispec/myspec/test/bla.js",
+          "file": "/test/bla.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "9f2a1cad-9763-4825-b0e3-4a66dbefa910",
+              "title": "Landing Page",
+              "options": {
+                "title": "Landing Page",
+                "description": "Requirement 2",
+                "noFile": true
+              },
+              "fullFile": "/home/zahnen/development/apispec/myspec/test/bla.js",
+              "file": "/test/bla.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "GET should return 200",
+                  "fullTitle": "OGC API Landing Page GET should return 200",
+                  "timedOut": false,
+                  "duration": 91,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": "[\n  {\n    \"title\": \"Request\",\n    \"value\": \"GET https://services.interactive-instruments.de/t14/wfs3/daraa/?f=json\"\n  },\n  {\n    \"title\": \"Response\",\n    \"value\": \"\"\n  }\n]",
+                  "code": "sut\n    .context(this)\n    .get('/')\n    .query({ f: 'json' })\n    .set('Accept', 'application/json')\n    .expect('Content-Type', /json/)\n    .expect(200, done);",
+                  "err": {},
+                  "uuid": "cefc256f-4a21-43ce-9d3a-6c7fa56b9f50",
+                  "parentUUID": "9f2a1cad-9763-4825-b0e3-4a66dbefa910",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should return 0 when the value is not present",
+                  "fullTitle": "OGC API Landing Page should return 0 when the value is not present",
+                  "timedOut": false,
+                  "duration": 1,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "assert.equal([1, 2, 3].indexOf(4), 0);",
+                  "err": {
+                    "message": "AssertionError [ERR_ASSERTION]: -1 == 0",
+                    "estack": "AssertionError [ERR_ASSERTION]: -1 == 0\n    at Context.<anonymous> (test/bla.js:29:20)",
+                    "diff": "- -1\n+ 0\n"
+                  },
+                  "uuid": "0ddd8955-10bb-4901-8496-576044ad6c8a",
+                  "parentUUID": "9f2a1cad-9763-4825-b0e3-4a66dbefa910",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "cefc256f-4a21-43ce-9d3a-6c7fa56b9f50"
+              ],
+              "failures": [
+                "0ddd8955-10bb-4901-8496-576044ad6c8a"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 92,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "6.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "index",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false
+      },
+      "version": "4.1.0"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "report",
+        "reportFilename": "index",
+        "inline": "true",
+        "code": "false"
+      },
+      "version": "0.0.0"
+    }
+  }
+}

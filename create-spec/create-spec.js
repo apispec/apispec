@@ -27,7 +27,9 @@ function createSpec(
     version: '1.0.0',
     private: true,
     scripts: {
-      test: 'mocha'
+      test: 'mocha',
+      //TODO
+      postinstall: 'patch-package --patch-dir ../node_modules/@apispec/runner/patches'
     },
     dependencies: {
       '@apispec/runner': '^' + version
@@ -39,7 +41,7 @@ function createSpec(
   );
 
   const mochaOpts = {
-    require: '@apispec/spec/bdd-options',
+    require: '@apispec/runner/bdd-options',
     ui: 'bdd-options',
     recursive: true,
     reporter: 'mochawesome',

@@ -1,12 +1,27 @@
+diff --git a/node_modules/mochawesome/src/mochawesome.js b/node_modules/mochawesome/src/mochawesome.js
+index a33da35..d76084a 100755
+--- a/node_modules/mochawesome/src/mochawesome.js
++++ b/node_modules/mochawesome/src/mochawesome.js
+@@ -1,8 +1,8 @@
+ const Base = require('mocha/lib/reporters/base');
+ const mochaPkg = require('mocha/package.json');
+ const uuid = require('uuid');
+-const marge = require('mochawesome-report-generator');
+-const margePkg = require('mochawesome-report-generator/package.json');
++const marge = require('@apispec/report-generator');
++const margePkg = require('@apispec/report-generator/package.json');
+ const conf = require('./config');
+ const utils = require('./utils');
+ const pkg = require('../package.json');
 diff --git a/node_modules/mochawesome/src/utils.js b/node_modules/mochawesome/src/utils.js
-index 8de9417..76cfba5 100644
+index 8de9417..dc83985 100644
 --- a/node_modules/mochawesome/src/utils.js
 +++ b/node_modules/mochawesome/src/utils.js
 @@ -218,6 +218,7 @@ function cleanSuite(suite, totalTestsRegistered, config) {
    const cleaned = {
      uuid: suite.uuid || /* istanbul ignore next: default */uuid.v4(),
      title: stripAnsi(suite.title),
-+    options: suite.options,
++    options: suite.options || {},
      fullFile: suite.file || '',
      file: suite.file ? suite.file.replace(process.cwd(), '') : '',
      beforeHooks,

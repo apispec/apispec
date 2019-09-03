@@ -1,0 +1,12 @@
+{
+  "require": "@apispec/runner/bdd-options",
+  "ui": "bdd-options",
+  "recursive": true,
+  "reporter": "mochawesome",
+  "reporterOptions": [
+    "reportDir=report",
+    "reportFilename=index",
+    "inline=true",
+    "code=false"
+  ]
+}
