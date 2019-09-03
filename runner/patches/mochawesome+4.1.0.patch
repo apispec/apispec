@@ -1,0 +1,12 @@
+diff --git a/node_modules/mochawesome/src/utils.js b/node_modules/mochawesome/src/utils.js
+index 8de9417..76cfba5 100644
+--- a/node_modules/mochawesome/src/utils.js
++++ b/node_modules/mochawesome/src/utils.js
+@@ -218,6 +218,7 @@ function cleanSuite(suite, totalTestsRegistered, config) {
+   const cleaned = {
+     uuid: suite.uuid || /* istanbul ignore next: default */uuid.v4(),
+     title: stripAnsi(suite.title),
++    options: suite.options,
+     fullFile: suite.file || '',
+     file: suite.file ? suite.file.replace(process.cwd(), '') : '',
+     beforeHooks,

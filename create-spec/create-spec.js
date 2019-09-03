@@ -6,6 +6,7 @@ const validateProjectName = require('validate-npm-package-name');
 
 function createSpec(
   name,
+  version,
   verbose,
   addJsonAsserts
 ) {
@@ -14,21 +15,39 @@ function createSpec(
 
   checkAppName(appName);
   fs.ensureDirSync(name);
-//  if (!isSafeToCreateProjectIn(root, name)) {
-//    process.exit(1);
-//  }
+  //  if (!isSafeToCreateProjectIn(root, name)) {
+  //    process.exit(1);
+  //  }
 
   console.log(`Creating a new apispec ${chalk.green(root)}.`);
   console.log();
 
   const packageJson = {
     name: appName,
-    version: '0.1.0',
+    version: '1.0.0',
     private: true,
+    scripts: {
+      test: 'mocha'
+    },
+    dependencies: {
+      '@apispec/runner': '^' + version
+    }
   };
   fs.writeFileSync(
     path.join(root, 'package.json'),
     JSON.stringify(packageJson, null, 2) + os.EOL
+  );
+
+  const mochaOpts = {
+    require: '@apispec/spec/bdd-options',
+    ui: 'bdd-options',
+    recursive: true,
+    reporter: 'mochawesome',
+    reporterOptions: ['reportDir=report', 'reportFilename=index', 'inline=true', 'code=false']
+  };
+  fs.writeFileSync(
+    path.join(root, '.mocharc.json'),
+    JSON.stringify(mochaOpts, null, 2) + os.EOL
   );
 
 }
@@ -56,10 +75,10 @@ function checkAppName(appName) {
         `We cannot create a project called ${chalk.green(
           appName
         )} because a dependency with the same name exists.\n` +
-          `Due to the way npm works, the following names are not allowed:\n\n`
+        `Due to the way npm works, the following names are not allowed:\n\n`
       ) +
-        chalk.cyan(dependencies.map(depName => `  ${depName}`).join('\n')) +
-        chalk.red('\n\nPlease choose a different project name.')
+      chalk.cyan(dependencies.map(depName => `  ${depName}`).join('\n')) +
+      chalk.red('\n\nPlease choose a different project name.')
     );
     process.exit(1);
   }

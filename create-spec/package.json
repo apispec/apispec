@@ -1,5 +1,5 @@
 {
-  "name": "create-spec",
+  "name": "@apispec/create-spec",
   "version": "0.0.0",
   "bin": {
     "create-spec": "./index.js"

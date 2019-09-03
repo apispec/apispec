@@ -14,7 +14,7 @@ const program = new commander.Command()
     projectName = name;
   })
   .option('-j, --json', 'add json asserts')
-//  .allowUnknownOption()
+  //  .allowUnknownOption()
   .on('--help', () => {
     console.log();
     console.log(`    Only ${chalk.green('<project-directory>')} is required.`);
@@ -34,6 +34,7 @@ if (typeof projectName === 'undefined') {
 
 createSpec(
   projectName,
+  packageJson.version,
   program.verbose,
   program.json
 );

@@ -2,7 +2,7 @@
   "name": "apispec",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist"
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "lerna": "^3.16.4"
