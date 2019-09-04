@@ -14,6 +14,7 @@ const program = new commander.Command()
     projectName = name;
   })
   .option('-j, --json', 'add json asserts')
+  .option('-w, --workspace', 'dev only: create yarn workspace to use local apispec')
   //  .allowUnknownOption()
   .on('--help', () => {
     console.log();
@@ -36,6 +37,6 @@ createSpec(
   projectName,
   packageJson.version,
   program.verbose,
-  program.json
+  program.json,
+  program.workspace
 );
-

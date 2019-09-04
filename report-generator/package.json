@@ -6,7 +6,7 @@
   "private": false,
   "scripts": {
     "marge": "cd mochawesome-report-generator && npm install && npm run prepack",
-    "dist": "rm -r bin dist lib && cp -r mochawesome-report-generator/bin mochawesome-report-generator/dist mochawesome-report-generator/lib ./",
+    "dist": "rm -rf bin dist lib && cp -r mochawesome-report-generator/bin mochawesome-report-generator/dist mochawesome-report-generator/lib ./",
     "build": "yarn marge && yarn dist"
   },
   "dependencies": {}

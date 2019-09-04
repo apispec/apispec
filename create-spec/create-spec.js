@@ -8,13 +8,15 @@ function createSpec(
   name,
   version,
   verbose,
-  addJsonAsserts
+  addJsonAsserts,
+  useLocalApispec
 ) {
   const root = path.resolve(name);
   const appName = path.basename(root);
 
   checkAppName(appName);
   fs.ensureDirSync(name);
+  fs.ensureDirSync(path.resolve(name, 'test'));
   //  if (!isSafeToCreateProjectIn(root, name)) {
   //    process.exit(1);
   //  }
@@ -29,20 +31,24 @@ function createSpec(
     scripts: {
       test: 'mocha',
       //TODO
-      postinstall: 'patch-package --patch-dir ../node_modules/@apispec/runner/patches'
+      postinstall: 'patch-package --patch-dir ./node_modules/@apispec/runner/patches'
     },
     dependencies: {
       '@apispec/runner': '^' + version
     }
   };
+
+  if (useLocalApispec) {
+    packageJson.workspaces = ["../apispec/*"]
+  }
+
   fs.writeFileSync(
     path.join(root, 'package.json'),
     JSON.stringify(packageJson, null, 2) + os.EOL
   );
 
   const mochaOpts = {
-    require: '@apispec/runner/bdd-options',
-    ui: 'bdd-options',
+    ui: '@apispec/runner/bdd-options',
     recursive: true,
     reporter: 'mochawesome',
     reporterOptions: ['reportDir=report', 'reportFilename=index', 'inline=true', 'code=false']
