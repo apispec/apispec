@@ -51,7 +51,7 @@ function createSpec(
     ui: '@apispec/runner/bdd-options',
     recursive: true,
     reporter: 'mochawesome',
-    reporterOptions: ['reportDir=report', 'reportFilename=index', 'inline=true', 'code=false']
+    reporterOptions: ['reportDir=report', 'reportFilename=index', 'inline=true', 'code=false', 'htmlModule=@apispec/html-report']
   };
   fs.writeFileSync(
     path.join(root, '.mocharc.json'),

@@ -1,0 +1,68 @@
+diff --git a/node_modules/mochawesome-report-generator/lib/main.js b/node_modules/mochawesome-report-generator/lib/main.js
+index ecec273..90b7a33 100644
+--- a/node_modules/mochawesome-report-generator/lib/main.js
++++ b/node_modules/mochawesome-report-generator/lib/main.js
+@@ -27,7 +27,6 @@ var pkg = require('../package.json');
+ var _require = require('./options'),
+     getMergedOptions = _require.getMergedOptions;
+ 
+-var distDir = path.join(__dirname, '..', 'dist');
+ var fileExtRegex = /\.[^.]*?$/;
+ var semverRegex = /\d+\.\d+\.\d+(?:-(alpha|beta)\.\d+)?/;
+ /**
+@@ -193,7 +192,7 @@ function _shouldCopyAssets(assetsDir) {
+  */
+ 
+ 
+-function copyAssets(_ref2) {
++function copyAssets(_ref2, distDir) {
+   var assetsDir = _ref2.assetsDir;
+ 
+   if (_shouldCopyAssets(assetsDir)) {
+@@ -217,8 +216,10 @@ function getAssets(reportOptions) {
+       cdn = reportOptions.cdn,
+       dev = reportOptions.dev,
+       inlineAssets = reportOptions.inlineAssets,
+-      reportDir = reportOptions.reportDir;
+-  var relativeAssetsDir = path.relative(reportDir, assetsDir); // Default URLs to assets path
++      reportDir = reportOptions.reportDir,
++      htmlModule = reportOptions.htmlModule;
++  var relativeAssetsDir = path.relative(reportDir, assetsDir);
++  var distDir = path.join(require.resolve(htmlModule + '/package.json'), 'dist'); // Default URLs to assets path
+ 
+   var assets = {
+     inlineScripts: null,
+@@ -246,7 +247,7 @@ function getAssets(reportOptions) {
+ 
+ 
+   if (!dev && !cdn && !inlineAssets) {
+-    copyAssets(reportOptions);
++    copyAssets(reportOptions, distDir);
+   }
+ 
+   return assets;
+diff --git a/node_modules/mochawesome-report-generator/lib/options.js b/node_modules/mochawesome-report-generator/lib/options.js
+index 0ca40a8..bd32c3e 100644
+--- a/node_modules/mochawesome-report-generator/lib/options.js
++++ b/node_modules/mochawesome-report-generator/lib/options.js
+@@ -40,6 +40,7 @@ var isFunction = require('lodash.isfunction');
+  *                                       - context: display only hooks with context
+  * @property {boolean} saveJson         Should report data be saved to JSON file (default: false)
+  * @property {boolean} saveHtml         Should report be saved to HTML file (default: true)
++ * @property {string} htmlModule        Module that contains the HTML assets (default: mochawesome-report-generator)
+  * @property {boolean} dev              Enable dev mode in the report,
+  *                                      asssets loaded via webpack (default: false)
+  */
+@@ -156,6 +157,12 @@ var yargsOptions = {
+     describe: 'Save report to HTML file',
+     boolean: true
+   },
++  htmlModule: {
++    default: 'mochawesome-report-generator',
++    describe: 'Module that contains the HTML assets',
++    string: true,
++    requiresArg: true
++  },
+   dev: {
+     default: false,
+     describe: 'Enable dev mode',
