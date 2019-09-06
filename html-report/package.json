@@ -1,0 +1,16 @@
+{
+  "name": "@apispec/html-report",
+  "version": "0.0.0",
+  "main": "lib/main.js",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "buildCli": "cd mochawesome-report-generator && git checkout custom-html-option && npm install && npm run compile",
+    "copyCli": "rm -rf bin lib && cp -r mochawesome-report-generator/bin mochawesome-report-generator/lib ./",
+    "cli": "yarn buildCli && yarn copyCli",
+    "buildAssets": "cd mochawesome-report-generator && git checkout styled-components && npm install && npm run build",
+    "copyAssets": "rm -rf dist && cp -r mochawesome-report-generator/dist ./",
+    "html": "yarn buildAssets && yarn copyAssets"
+  },
+  "dependencies": {}
+}

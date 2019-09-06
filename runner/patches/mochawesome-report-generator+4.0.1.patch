@@ -1,5 +1,5 @@
 diff --git a/node_modules/mochawesome-report-generator/lib/main.js b/node_modules/mochawesome-report-generator/lib/main.js
-index ecec273..90b7a33 100644
+index ecec273..59eaccd 100644
 --- a/node_modules/mochawesome-report-generator/lib/main.js
 +++ b/node_modules/mochawesome-report-generator/lib/main.js
 @@ -27,7 +27,6 @@ var pkg = require('../package.json');
@@ -28,7 +28,7 @@ index ecec273..90b7a33 100644
 +      reportDir = reportOptions.reportDir,
 +      htmlModule = reportOptions.htmlModule;
 +  var relativeAssetsDir = path.relative(reportDir, assetsDir);
-+  var distDir = path.join(require.resolve(htmlModule + '/package.json'), 'dist'); // Default URLs to assets path
++  var distDir = path.join(path.dirname(require.resolve(htmlModule + '/package.json')), 'dist'); // Default URLs to assets path
  
    var assets = {
      inlineScripts: null,
