@@ -1,0 +1,10 @@
+.nyc_output/
+bin/*.js
+coverage/
+dist/
+lib/*.js
+mochawesome-report/
+node_modules/
+test-functional/
+webpack.config.js
+webpack.loaders.js

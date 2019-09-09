@@ -70,4 +70,7 @@ html-report/bin/
 html-report/dist/
 html-report/lib/
 
+live-editor/dist/
+live-editor/report/
+
 **/node_modules
