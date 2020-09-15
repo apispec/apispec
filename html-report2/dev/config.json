@@ -1,0 +1,11 @@
+{
+    "reportTitle": "myspec",
+    "enableCharts": true,
+    "enableCode": true,
+    "showPassed": true,
+    "showFailed": true,
+    "showPending": true,
+    "showSkipped": false,
+    "showHooks": "failed",
+    "dev": true
+}
