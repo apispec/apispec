@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const storeContext = React.createContext(null);
 
-export const StoreProvider = ({ store, children }) => {
+const StoreProvider = ({ store, children }) => {
     return (
         <storeContext.Provider value={store}>{children}</storeContext.Provider>
     );
@@ -13,6 +13,8 @@ StoreProvider.propTypes = {
     store: PropTypes.shape().isRequired,
     children: PropTypes.node.isRequired,
 };
+
+export default StoreProvider;
 
 export const useStore = () => {
     const store = React.useContext(storeContext);

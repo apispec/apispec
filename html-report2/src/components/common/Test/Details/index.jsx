@@ -100,6 +100,7 @@ const TestDetails = ({ passed, failed, error, code, context, enableCode }) => {
                     (key) =>
                         key === selectedTab && (
                             <CodeSnippet
+                                key={key}
                                 code={tabs[key].value}
                                 lang={tabs[key].language}
                                 highlight={tabs[key].highlight}

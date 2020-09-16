@@ -1,6 +1,29 @@
 import Duration from './Duration';
 import ExpandButton from './ExpandButton';
+import Footer from './Footer';
 import IconLabel from './IconLabel';
 import IconStatus from './IconStatus';
+import Loader from './Loader';
+import Navbar from './Navbar';
+import Report from './Report';
+import StoreProvider from './StoreProvider';
+import Suite from './Suite';
+import Suites from './Suites';
+import Test from './Test';
+import Tests from './Tests';
 
-export { Duration, ExpandButton, IconLabel, IconStatus };
+export {
+    Duration,
+    ExpandButton,
+    Footer,
+    IconLabel,
+    IconStatus,
+    Loader,
+    Navbar,
+    Report,
+    StoreProvider,
+    Suite,
+    Suites,
+    Test,
+    Tests,
+};

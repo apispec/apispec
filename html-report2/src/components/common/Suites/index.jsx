@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Container } from '@material-ui/core';
 
-import { useStore } from '../store';
+import { useStore } from '../StoreProvider';
 
 const ReportBody = observer(({ Suite, containerProps }) => {
     const store = useStore();

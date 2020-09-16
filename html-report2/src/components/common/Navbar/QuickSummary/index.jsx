@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { Box } from '@material-ui/core';
 import { LibraryBooks, Assignment } from '@material-ui/icons';
 
-import { Duration, IconLabel, IconStatus } from '../../common';
+import Duration from '../../Duration';
+import IconLabel from '../../IconLabel';
+import IconStatus from '../../IconStatus';
 
 const Item = (props) => (
     <Box

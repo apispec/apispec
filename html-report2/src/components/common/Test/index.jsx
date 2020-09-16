@@ -7,7 +7,7 @@ import { Accordion } from '@material-ui/core';
 import Summary from './Summary';
 import Details from './Details';
 // import { CodeSnippet } from 'components/test';
-import { useToggle } from '../../style/base';
+import { useToggle } from '../../../style/base';
 
 const StyledExpansionPanel = styled(({ pass, fail, ...props }) => (
     <Accordion {...props} />

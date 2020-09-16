@@ -2,23 +2,25 @@ import { hot } from 'react-hot-loader';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Footer from '../Footer';
-import Loader from '../Loader';
-import Navbar from '../Navbar';
+import Footer from '../../common/Footer';
+import Loader from '../../common/Loader';
+import Navbar from '../../common/Navbar';
 // import { NavMenu } from "components/nav-menu";
-import Suites from '../Suites';
-import Suite from '../Suite';
-import Test from '../Test';
-import Report from '../Report';
+import Suites from '../../common/Suites';
+import Suite from '../../common/Suite';
+import Test from '../../common/Test';
+import Report from '../../common/Report';
 
-import { mochawesome as theme } from '../../themes';
+import { mochawesome as theme } from '../../../themes';
 
 const DefaultTest = (props) => <Test {...props} />;
 const DefaultSuite = (props) => (
     <Suite {...props} Test={DefaultTest} Actions={() => <div>actions</div>} />
 );
 const DefaultSuites = (props) => <Suites {...props} Suite={DefaultSuite} />;
-
+const DefaultFooter = (props) => (
+    <Footer {...props} name='mochawesome' link='https://apispec.github.io' />
+);
 const HtmlReport = ({ store }) => {
     return (
         <Report
@@ -27,7 +29,7 @@ const HtmlReport = ({ store }) => {
             Navbar={Navbar}
             Suites={DefaultSuites}
             Loader={Loader}
-            Footer={Footer}
+            Footer={DefaultFooter}
         />
     );
 };

@@ -9,13 +9,13 @@ const FooterWrapper = styled.footer`
     padding: ${(props) => props.theme.spacing(6, 0)};
 `;
 
-const Footer = ({ version }) => {
+const Footer = ({ name, link, version }) => {
     return (
         <FooterWrapper>
             <Typography variant='body2' color='textSecondary' align='center'>
                 &copy;&nbsp;{new Date().getFullYear()}&nbsp;
-                <Link color='primary' href='https://apispec.github.io'>
-                    apispec
+                <Link color='primary' href={link}>
+                    {name}
                 </Link>
                 &nbsp;{version}
             </Typography>
@@ -24,6 +24,8 @@ const Footer = ({ version }) => {
 };
 
 Footer.propTypes = {
+    name: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
     version: PropTypes.string.isRequired,
 };
 

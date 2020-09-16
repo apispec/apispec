@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 import styled, { keyframes } from 'styled-components';
 import { transparentize } from 'polished';
 
-import { useStore } from '../store';
-import { media } from '../../style/theme';
+import { useStore } from '../StoreProvider';
+import { media } from '../../../style/theme';
 
 const Component = styled.div`
     position: fixed;

@@ -6,7 +6,7 @@ import styled, { useTheme } from 'styled-components';
 import { VictoryPie, VictoryLabel } from 'victory';
 // import { Tooltip } from '@material-ui/core';
 
-import { media } from '../../../style/theme';
+import { media } from '../../../../style/theme';
 
 const Wrap = styled.div`
     display: none;

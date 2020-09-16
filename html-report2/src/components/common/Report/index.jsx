@@ -12,7 +12,7 @@ import {
 
 import { CssBaseline, Box } from '@material-ui/core';
 
-import { StoreProvider } from '../store';
+import StoreProvider from '../StoreProvider';
 
 const GlobalStyle = createGlobalStyle`
 html {

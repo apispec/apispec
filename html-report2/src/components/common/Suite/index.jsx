@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Collapse, Box } from '@material-ui/core';
 
-import { ExpandButton } from '../common';
+import { ExpandButton } from '..';
 import {
     Card,
     CardContent,
@@ -17,7 +17,7 @@ import Tests from '../Tests';
 // import SuiteListMui from './list-mui'
 // import SuiteSummaryMui from './summary-mui'
 
-import { useToggle } from '../../style/base';
+import { useToggle } from '../../../style/base';
 
 const Suite = ({
     suite,

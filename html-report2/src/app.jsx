@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HtmlReport from './components/HtmlReport';
+import HtmlReport from './components/base/HtmlReport';
 import ReportStore from './notchanged/reportStore';
 
 // Initialize the store
