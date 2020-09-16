@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { AccordionDetails, Tabs, Tab } from '@material-ui/core';
+import CodeSnippet from '../../CodeSnippet';
 
 const StyledExpansionPanelDetails = styled(AccordionDetails)`
     padding: 0;
@@ -46,14 +47,22 @@ const TestDetails = ({ passed, failed, error, code, context, enableCode }) => {
 
     if (error) {
         if (error.estack) {
-            tabs.error = { title: 'Error', value: error.estack };
+            tabs.error = {
+                title: 'Stack trace',
+                value: error.estack,
+                highlight: false,
+            };
         }
         if (error.diff) {
             tabs.diff = { title: 'Diff', value: error.diff, language: 'diff' };
         }
     }
     if (enableCode && code) {
-        tabs.code = { title: 'Code', value: code, language: 'javascript' };
+        tabs.code = {
+            title: 'Assertions',
+            value: code,
+            language: 'javascript',
+        };
     }
     if (cntxt) {
         cntxt.forEach((ctx) => {
@@ -86,34 +95,19 @@ const TestDetails = ({ passed, failed, error, code, context, enableCode }) => {
                 ))}
             </StyledTabs>
             <TabContent>
-                <div>code snippets</div>
-                {/* {selectedTab === 'ERROR' && (
-                        <CodeSnippet
-                            code={err.estack}
-                            highlight={false}
-                            label='Stack Trace'
-                        />
-                    )}
-                    {selectedTab === 'DIFF' && (
-                        <CodeSnippet code={err.diff} lang='diff' label='Diff' />
-                    )}
-                    {selectedTab === 'CODE' && (
-                        <CodeSnippet code={code} label='Test Code' />
-                    )}
-                    {cntxt &&
-                        cntxt.some(
-                            ({ title: ctitle }) => ctitle === selectedTab
-                        ) && (
+                {/* highlight.js only works when component never changes, so we create one instance per code snippet */}
+                {Object.keys(tabs).map(
+                    (key) =>
+                        key === selectedTab && (
                             <CodeSnippet
-                                code={
-                                    cntxt.find(
-                                        ({ title: ctitle }) =>
-                                            ctitle === selectedTab
-                                    ).value
-                                }
-                                label='bla'
+                                code={tabs[key].value}
+                                lang={tabs[key].language}
+                                highlight={tabs[key].highlight}
+                                label={tabs[key].title}
                             />
-                              )} */}
+                        )
+                )}
+
                 {/* !!context && <TestContext context={context} /> */}
             </TabContent>
         </StyledExpansionPanelDetails>

@@ -27,6 +27,7 @@ const Suite = ({
     TitleComponent,
     DescriptionComponent,
     Actions,
+    Test,
 }) => {
     const [expanded, toggleExpanded] = useToggle(true);
 
@@ -65,6 +66,7 @@ const Suite = ({
         TitleComponent,
         DescriptionComponent,
         Actions,
+        Test,
     };
     const subSuites = (isMain2) =>
         hasSuites &&
@@ -131,6 +133,7 @@ const Suite = ({
                             beforeHooks={beforeHooks}
                             afterHooks={afterHooks}
                             enableCode={enableCode}
+                            Test={Test}
                         />
                     </TestContainer>
                 )}
@@ -148,6 +151,7 @@ Suite.propTypes = {
     TitleComponent: PropTypes.elementType,
     DescriptionComponent: PropTypes.elementType,
     Actions: PropTypes.oneOfType([PropTypes.elementType, PropTypes.bool]),
+    Test: PropTypes.elementType.isRequired,
 };
 
 Suite.defaultProps = {

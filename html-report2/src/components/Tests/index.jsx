@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Test from '../Test';
-
-const TestList = ({ tests, beforeHooks, afterHooks, enableCode }) => (
+const TestList = ({ tests, beforeHooks, afterHooks, enableCode, Test }) => (
     <>
         {!!beforeHooks &&
             beforeHooks.map((test) => (
@@ -25,6 +23,7 @@ TestList.propTypes = {
     beforeHooks: PropTypes.arrayOf(PropTypes.shape()),
     afterHooks: PropTypes.arrayOf(PropTypes.shape()),
     enableCode: PropTypes.bool,
+    Test: PropTypes.elementType.isRequired,
 };
 
 TestList.defaultProps = {

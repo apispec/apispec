@@ -26,6 +26,7 @@
     "deepmerge": "^4.2.2",
     "eslint": "^7",
     "eslint-config-prettier": "^6.11.0",
+    "highlight.js": "^10.2.0",
     "mobx": "^5.15.6",
     "mobx-react-lite": "^2.2.1",
     "mocha": "^8",
