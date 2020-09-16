@@ -1,44 +1,42 @@
 {
-  "name": "@apispec/report",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "build": "NODE_ENV=production webpack --mode production",
-    "test": "mocha",
-    "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
-  },
-  "dependencies": {
-    "prop-types": "^15",
-    "react": "^16",
-    "react-dom": "^16",
-    "react-hot-loader": "^4"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.10.5",
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "@neutrinojs/airbnb": "^9.4.0",
-    "@neutrinojs/mocha": "^9.4.0",
-    "@neutrinojs/react": "^9.4.0",
-    "babel-merge": "^3.0.0",
-    "deepmerge": "^4.2.2",
-    "eslint": "^7",
-    "eslint-config-prettier": "^6.11.0",
-    "highlight.js": "^10.2.0",
-    "mobx": "^5.15.6",
-    "mobx-react-lite": "^2.2.1",
-    "mocha": "^8",
-    "neutrino": "^9.4.0",
-    "polished": "^3.6.6",
-    "pretty-ms": "^7.0.0",
-    "styled-components": "^5.2.0",
-    "styled-media-query": "^2.1.2",
-    "typeface-roboto": "^0.0.75",
-    "victory": "^35.0.9",
-    "webpack": "^4",
-    "webpack-cli": "^3",
-    "webpack-dev-server": "^3"
-  }
+    "name": "@apispec/report",
+    "version": "1.0.0",
+    "module": "src/components/common/index.jsx",
+    "license": "MIT",
+    "scripts": {
+        "start": "webpack-dev-server --mode development",
+        "build": "NODE_ENV=production webpack --mode production && cp dist/app.css dist/app.inline.css",
+        "test": "mocha",
+        "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
+    },
+    "dependencies": {
+        "@material-ui/core": "^4.11.0",
+        "@material-ui/icons": "^4.9.1",
+        "highlight.js": "^10.2.0",
+        "mobx": "^5.15.6",
+        "mobx-react-lite": "^2.2.1",
+        "polished": "^3.6.6",
+        "pretty-ms": "^7.0.0",
+        "prop-types": "^15",
+        "react": "^16",
+        "react-dom": "^16",
+        "react-hot-loader": "^4",
+        "styled-components": "^5.2.0",
+        "styled-media-query": "^2.1.2",
+        "typeface-roboto": "^0.0.75",
+        "victory": "^35.0.9"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.10.5",
+        "@neutrinojs/airbnb": "^9.4.0",
+        "@neutrinojs/mocha": "^9.4.0",
+        "@neutrinojs/react": "^9.4.0",
+        "eslint": "^7",
+        "eslint-config-prettier": "^6.11.0",
+        "mocha": "^8",
+        "neutrino": "^9.4.0",
+        "webpack": "^4",
+        "webpack-cli": "^3",
+        "webpack-dev-server": "^3"
+    }
 }

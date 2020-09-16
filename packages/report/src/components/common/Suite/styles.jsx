@@ -71,7 +71,7 @@ export const CardActions = ({ children }) => (
         alignItems='center'
         justifyContent='space-between'
         pl={2}
-        pr={1}
+        pr={0.5}
         pt={0}
         pb={1}
         mt={-1}>

@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { Box, AccordionSummary } from '@material-ui/core';
 import { ChatBubbleOutline, ExpandMore } from '@material-ui/icons';
 
-import { Duration, IconLabel, IconStatus } from '../..';
+import Duration from '../../Duration';
+import IconLabel from '../../IconLabel';
+import IconStatus from '../../IconStatus';
 import { Title, ErrorMessage } from '../styles';
 
 const TestSummary = ({

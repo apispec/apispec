@@ -4,6 +4,8 @@ const mocha = require('@neutrinojs/mocha');
 const fs = require('fs');
 const path = require('path');
 
+const allowedModuleRegex = new RegExp(`^.*?\\/(@apispec|apispec)\\/.*?$`);
+
 module.exports = {
     options: {
         root: __dirname,
@@ -65,7 +67,7 @@ module.exports = {
             style: {
                 extract: {
                     plugin: {
-                        filename: '[name].css',
+                        filename: '[name].inline.css',
                     },
                 },
             },
@@ -76,9 +78,6 @@ module.exports = {
                         { legacy: true },
                     ],
                 ],
-            },
-            font: {
-                name: '[name].[ext]',
             },
         }),
 
@@ -93,10 +92,9 @@ module.exports = {
 
             neutrino.config.output.filename('[name].js');
 
-            // TODO
             neutrino.config.module
-                .rule('font')
-                .test(/\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/);
+                .rule('compile')
+                .include.add(path.join(__dirname, '../'));
         },
     ],
 };

@@ -1,0 +1,19 @@
+{
+    "name": "@apispec/runner",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "repository": "https://github.com/apispec/apispec",
+    "author": "azahnen",
+    "scripts": {
+        "postinstall": "patch-package"
+    },
+    "dependencies": {
+        "@apispec/report": "*",
+        "mocha": "^6.2.0",
+        "mochawesome": "^4.1.0",
+        "patch-package": "^6.1.2",
+        "postinstall-postinstall": "^2.0.0",
+        "supertest": "^4.0.2"
+    }
+}

@@ -2,12 +2,18 @@
   "name": "apispec",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "patch-package --patch-dir ./packages/runner/patches"
   },
   "devDependencies": {
-    "lerna": "^3.16.4"
+    "@neutrinojs/airbnb-base": "^9.4.0",
+    "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.11.0",
+    "lerna": "^3.16.4",
+    "neutrino": "^9.4.0",
+    "prettier": "^2.1.1"
   },
   "workspaces": [
-    "*"
+    "packages/*"
   ]
 }

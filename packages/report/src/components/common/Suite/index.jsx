@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Collapse, Box } from '@material-ui/core';
 
-import { ExpandButton } from '..';
+import ExpandButton from '../ExpandButton';
 import {
     Card,
     CardContent,
@@ -115,7 +115,7 @@ const Suite = ({
             </CardContent>
             {(Actions || hasTests) && (
                 <CardActions>
-                    {Actions && <Actions suite={suite} />}
+                    {Actions && <Actions {...suite} />}
                     {
                         hasTests && (
                             <div />

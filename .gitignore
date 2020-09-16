@@ -74,3 +74,5 @@ live-editor/dist/
 live-editor/report/
 
 **/node_modules
+
+dist/
