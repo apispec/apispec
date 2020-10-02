@@ -1,0 +1,13 @@
+{
+    "name": "@apispec/http",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "repository": "https://github.com/apispec/apispec",
+    "author": "azahnen",
+    "scripts": {},
+    "dependencies": {
+        "@apispec/runner": "*",
+        "supertest": "^4.0.2"
+    }
+}

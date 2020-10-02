@@ -10,15 +10,16 @@ const io = socketio(server);
 
 app.use(logger('combined'));
 
-require('./routes/socket').addRoutes(app, io, config);
-
 if (config.devEnv) {
     // TODO: this should not be reachable in production env, needs separate start file
     console.log('DEV');
     require('./routes/webpack-dev').addRoutes(app, config);
+    process.chdir(config.testDir);
 } else {
     require('./routes/static').addRoutes(app, config);
 }
+
+require('./routes/socket').addRoutes(app, io, config);
 
 server.listen(config.server.listenPort);
 

@@ -17,7 +17,7 @@ const SocketProvider = ({ children }) => {
     const store = useStore();
 
     useEffect(() => {
-        socket.emit('action', { type: 'mocha/hello', data: 'foo!' });
+        socket.emit('action', { type: 'editor/init' });
 
         // TODO
         // socket.emit('action', { type: 'mocha/init' });
@@ -31,10 +31,12 @@ const SocketProvider = ({ children }) => {
             action((msg) => {
                 console.log(msg);
 
+                if (msg.type === 'editor/project') {
+                    store.project = msg.data;
+                }
                 if (msg.type === 'mochaui/report') {
                     store.results = msg.data.results;
                     backend.isRunning = false;
-                    console.log(msg);
                 }
             })
         );

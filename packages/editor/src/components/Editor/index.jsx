@@ -14,12 +14,19 @@ import {
 import { apispec as theme } from '@apispec/report/src/themes';
 
 import Navbar from '../Navbar';
+import Project from '../Project';
+import SuiteTitle from '../SuiteTitle';
 import SuiteActions from '../SuiteActions';
 import SocketProvider from '../SocketProvider';
 
 const DefaultTest = (props) => <Test {...props} />;
 const DefaultSuite = (props) => (
-    <Suite {...props} Test={DefaultTest} Actions={SuiteActions} />
+    <Suite
+        {...props}
+        Test={DefaultTest}
+        TitleComponent={SuiteTitle}
+        Actions={SuiteActions}
+    />
 );
 const DefaultSuites = (props) => (
     <SocketProvider>
@@ -35,6 +42,7 @@ const Editor = ({ store }) => {
             store={store}
             theme={theme}
             Navbar={Navbar}
+            Header={Project}
             Suites={DefaultSuites}
             Loader={Loader}
             Footer={DefaultFooter}

@@ -1,73 +1,55 @@
-
-const { agent, Test } = require('supertest');
+const { resolve } = require('path');
 const addContext = require('mochawesome/addContext');
 
+const parameters = {
+    protocol: {
+        required: true,
+    },
+};
+const init = () => {
+    const pkgPath = resolve(process.cwd(), 'package.json');
+    const rcPath = resolve(process.cwd(), '.apispecrc.js');
+    console.log('RC', rcPath);
 
-
-agent.prototype.context = function (context) {
-    this.testContext = context;
-    return this;
-}
-
-
-var methods = require('methods');
-
-
-// override HTTP verb methods
-methods.forEach(function (method) {
-    var original = agent.prototype[method];
-    //console.log('ORIG', original);
-    agent.prototype[method] = function (url, fn) { // eslint-disable-line no-unused-vars
-        var req = original.call(this, url, fn);
-
-        req.context = this.testContext;
-        delete this.testContext;
-
-        //console.log('REQ', req);
-
-        return req;
+    const pkg = require(pkgPath);
+    const rc = require(rcPath);
+    const opts = {
+        ...rc,
+        name: pkg.name,
+        version: pkg.version,
     };
-});
+    console.log('OPTS', opts);
 
+    // TODO: validate
 
-const originalAssert = Test.prototype.assert;
+    const { plugins, protocol } = opts;
 
-//console.log('ASS', Test.prototype)
+    const resolvedPlugins = plugins.map((plugin) => require(plugin));
 
-Test.prototype.assert = function (resError, res, fn) {
+    console.log('PLUGINS', resolvedPlugins);
 
-    //TODO: cfg showHeaders, showBody, truncateBody, onlyOnFailure, etc.
-    if (this.context && res) {
-        //TODO
-        const showBody = true;
+    const protocolPlugin = resolvedPlugins.find(
+        (plugin) => plugin.type === 'protocol' && plugin.name === protocol
+    );
 
-        let request = res.request.method + ' ' + res.request.url + ' HTTP/1.1\n';
-        for (const key of Object.keys(res.request.header)) {
-            request += key + ': ' + res.request.header[key] + '\n';
-        }
-
-        let response = 'Status Code: ' + res.status + '\n';
-        for (const key of Object.keys(res.header)) {
-            response += key + ': ' + res.header[key] + '\n';
-        }
-        if (showBody) {
-            response += '\n' + res.text; //TODO: res.body might have parsed body
-        }
-
-        addContext(this.context, {
-            title: 'Request',
-            value: request,
-            language: 'http'
-        });
-        addContext(this.context, {
-            title: 'Response',
-            value: response,
-            language: 'http'
-        });
+    if (protocolPlugin === undefined) {
+        throw new Error(
+            `Invalid protocol ${protocol}, no matching plugin found.`
+        );
     }
 
+    const allParameters = {
+        ...parameters,
+        ...(protocol.parameters || {}),
+    };
 
-    originalAssert.call(this, resError, res, fn);
-}
+    Object.keys(allParameters).forEach((param) => {
+        if (allParameters[param].required && !opts[param]) {
+            throw new Error(`Required parameter ${param} is not set.`);
+        }
+    });
 
-module.exports = { request: agent, cfg: { todo: '' } }
+    return { opts, server: protocolPlugin.init(opts) };
+};
+
+module.exports = { init, addContext, cfg: { todo: '' } };

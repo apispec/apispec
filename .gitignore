@@ -76,3 +76,5 @@ live-editor/report/
 **/node_modules
 
 dist/
+dev/
+packages/editor/report/
