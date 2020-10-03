@@ -35,7 +35,7 @@ function run(emit, opts) {
     };
 
     console.log(
-        '@apispec/runner v%s (options: %s)',
+        '@apispec/core v%s (options: %s)',
         '???',
         JSON.stringify(options)
     );

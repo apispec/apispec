@@ -16,7 +16,7 @@
         "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
     },
     "dependencies": {
-        "@apispec/runner": "*",
+        "@apispec/core": "*",
         "express": "^4.17.1",
         "js-beautify": "^1.10.2",
         "jsonfile": "^5.0.0",

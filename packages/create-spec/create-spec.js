@@ -31,10 +31,10 @@ function createSpec(
     scripts: {
       test: 'mocha',
       //TODO
-      postinstall: 'patch-package --patch-dir ./node_modules/@apispec/runner/patches'
+      postinstall: 'patch-package --patch-dir ./node_modules/@apispec/core/patches'
     },
     dependencies: {
-      '@apispec/runner': '^' + version
+      '@apispec/core': '^' + version
     }
   };
 
@@ -48,10 +48,10 @@ function createSpec(
   );
 
   const mochaOpts = {
-    ui: '@apispec/runner/bdd-options',
+    ui: '@apispec/core/bdd-options',
     recursive: true,
     reporter: 'mochawesome',
-    reporterOptions: ['reportDir=report', 'reportFilename=index', 'inline=true', 'code=false', 'htmlModule=@apispec/html-report']
+    reporterOptions: ['reportDir=report', 'reportFilename=index', 'inline=true', 'code=false', 'htmlModule=@apispec/report']
   };
   fs.writeFileSync(
     path.join(root, '.mocharc.json'),

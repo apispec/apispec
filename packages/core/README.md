@@ -1,4 +1,4 @@
-# @apispec/runner
+# @apispec/core
 
 The runner pulls in mocha, mochawesome, supertest and @apispec/html-report.
 

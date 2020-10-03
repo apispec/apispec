@@ -1,5 +1,5 @@
 const { agent, Test } = require('supertest');
-const { addContext } = require('@apispec/runner');
+const { addContext } = require('@apispec/core');
 const methods = require('methods');
 
 agent.prototype.context = function (context) {

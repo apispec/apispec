@@ -1,6 +1,6 @@
 const fs = require('fs');
 const beautify = require('js-beautify').js;
-const { init } = require('@apispec/runner');
+const { init } = require('@apispec/core');
 
 const { opts } = init();
 

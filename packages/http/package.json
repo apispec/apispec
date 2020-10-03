@@ -7,7 +7,7 @@
     "author": "azahnen",
     "scripts": {},
     "dependencies": {
-        "@apispec/runner": "*",
+        "@apispec/core": "*",
         "supertest": "^4.0.2"
     }
 }
