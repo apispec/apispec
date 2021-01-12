@@ -12,7 +12,7 @@ const reporter = require('./reporter');
 const report = 'report/index.json';
 
 function run(emit, opts) {
-    const cfg = require.resolve('.mocharc.json', { paths: [config.testDir] });
+    const cfg = require.resolve('./.mocharc.json', { paths: [config.testDir] });
     console.log(cfg);
     delete require.cache[cfg];
     // eslint-disable-next-line global-require, import/no-dynamic-require
