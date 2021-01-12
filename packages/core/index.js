@@ -6,6 +6,7 @@ const parameters = {
         required: true,
     },
 };
+
 const init = () => {
     const pkgPath = resolve(process.cwd(), 'package.json');
     const rcPath = resolve(process.cwd(), '.apispecrc.js');
@@ -14,15 +15,17 @@ const init = () => {
     const pkg = require(pkgPath);
     const rc = require(rcPath);
     const opts = {
+        title: pkg.name,
+        description: pkg.description,
         ...rc,
         name: pkg.name,
         version: pkg.version,
     };
     console.log('OPTS', opts);
 
-    // TODO: validate
+    validateParameters(parameters, opts, 'core')
 
-    const { plugins, protocol } = opts;
+    const { plugins, protocol, contentTypes } = opts;
 
     const resolvedPlugins = plugins.map((plugin) => require(plugin));
 
@@ -32,24 +35,40 @@ const init = () => {
         (plugin) => plugin.type === 'protocol' && plugin.name === protocol
     );
 
-    if (protocolPlugin === undefined) {
+    validatePlugin(protocolPlugin, `protocol '${protocol}'`, opts)
+
+    const contentPlugins = {};
+
+    contentTypes.forEach((contentType) => {
+        const contentPlugin = resolvedPlugins.find(
+            (plugin) => plugin.type === 'content' && plugin.name === contentType
+        );
+
+        validatePlugin(contentPlugin, `content type '${contentType}'`, opts)
+
+        contentPlugins[contentType] = contentPlugin.init(opts);
+    });
+
+    //TODO: server -> [protocol]
+    return { opts, server: protocolPlugin.init(opts), ...contentPlugins };
+};
+
+const validatePlugin = (plugin, name, opts) => {
+    if (plugin === undefined) {
         throw new Error(
-            `Invalid protocol ${protocol}, no matching plugin found.`
+            `Invalid ${name}, no matching plugin found.`
         );
     }
 
-    const allParameters = {
-        ...parameters,
-        ...(protocol.parameters || {}),
-    };
+    validateParameters(plugin.parameters, opts, name)
+}
 
-    Object.keys(allParameters).forEach((param) => {
-        if (allParameters[param].required && !opts[param]) {
-            throw new Error(`Required parameter ${param} is not set.`);
+const validateParameters = (schema, values, requiredBy) => {
+    Object.keys(schema).forEach((param) => {
+        if (schema[param].required && !values[param]) {
+            throw new Error(`Required parameter '${param}' is not set (required by ${requiredBy}).`);
         }
     });
-
-    return { opts, server: protocolPlugin.init(opts) };
-};
+}
 
 module.exports = { init, addContext, cfg: { todo: '' } };

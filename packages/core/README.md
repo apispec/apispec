@@ -1,9 +1,9 @@
 # @apispec/core
 
-The runner pulls in mocha, mochawesome, supertest and @apispec/html-report.
+The core module pulls in mocha, mochawesome, chai and @apispec/report.
 
 It patches mochawesome to support custom html reports.
 
-It creates a custom mocha interface to support an options object as parameter to describe instead of just the title.
+It creates a custom mocha interface to support an options object as parameter to `describe` instead of just the title.
 
-It monkey patches supertest to automatically add requests and responses as context to mochawesome.
+It provides an `init` function to specs that reads `.apispecrc.js` and initializes and returns the defined plugins.
