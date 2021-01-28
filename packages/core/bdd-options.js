@@ -20,21 +20,20 @@ module.exports = Mocha.interfaces['bdd-options'] = function (suite) {
          */
 
         context.describe = context.context = function (options, fn) {
-
             let newSuite;
 
-            if (typeof options === "object") {
+            if (typeof options === 'object') {
                 newSuite = common.suite.create({
                     title: options.title,
                     file: file,
-                    fn: fn
+                    fn: fn,
                 });
                 newSuite.options = options;
             } else {
                 newSuite = common.suite.create({
                     title: options,
                     file: file,
-                    fn: fn
+                    fn: fn,
                 });
                 newSuite.options = {};
             }
@@ -53,7 +52,7 @@ module.exports = Mocha.interfaces['bdd-options'] = function (suite) {
             return common.suite.skip({
                 title: title,
                 file: file,
-                fn: fn
+                fn: fn,
             });
         };
 
@@ -65,7 +64,7 @@ module.exports = Mocha.interfaces['bdd-options'] = function (suite) {
             return common.suite.only({
                 title: title,
                 file: file,
-                fn: fn
+                fn: fn,
             });
         };
 
@@ -75,13 +74,22 @@ module.exports = Mocha.interfaces['bdd-options'] = function (suite) {
          * acting as a thunk.
          */
 
-        context.it = context.specify = function (title, fn) {
+        context.it = context.specify = function (options, fn) {
             var suite = suites[0];
             if (suite.isPending()) {
                 fn = null;
             }
-            var test = new Test(title, fn);
+
+            let test;
+            if (typeof options === 'object') {
+                test = new Test(options.title, fn);
+                test.options = options;
+            } else {
+                test = new Test(options, fn);
+                test.options = {};
+            }
             test.file = file;
+
             suite.addTest(test);
             return test;
         };
@@ -108,6 +116,5 @@ module.exports = Mocha.interfaces['bdd-options'] = function (suite) {
         context.it.retries = function (n) {
             context.retries(n);
         };
-
     });
 };

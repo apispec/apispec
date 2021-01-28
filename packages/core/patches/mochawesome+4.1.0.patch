@@ -1,8 +1,16 @@
 diff --git a/node_modules/mochawesome/src/utils.js b/node_modules/mochawesome/src/utils.js
-index 8de9417..dc83985 100644
+index 8de9417..ae5f0b3 100644
 --- a/node_modules/mochawesome/src/utils.js
 +++ b/node_modules/mochawesome/src/utils.js
-@@ -218,6 +218,7 @@ function cleanSuite(suite, totalTestsRegistered, config) {
+@@ -158,6 +158,7 @@ function cleanTest(test, config) {
+ 
+   const cleaned = {
+     title: stripAnsi(test.title),
++    options: test.options || {},
+     fullTitle: isFunction(test.fullTitle) ? stripAnsi(test.fullTitle()) : /* istanbul ignore next */ stripAnsi(test.title),
+     timedOut: test.timedOut,
+     duration: test.duration || 0,
+@@ -218,6 +219,7 @@ function cleanSuite(suite, totalTestsRegistered, config) {
    const cleaned = {
      uuid: suite.uuid || /* istanbul ignore next: default */uuid.v4(),
      title: stripAnsi(suite.title),
