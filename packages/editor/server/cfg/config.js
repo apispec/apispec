@@ -2,6 +2,7 @@ const path = require('path');
 
 const dir = process.cwd();
 const isDev = process.argv.length > 2 && process.argv[2] === '--dev'; // process.env.NODE_ENV !== 'production';
+if (isDev) process.env.NODE_ENV = 'development';
 
 module.exports = {
     server: {

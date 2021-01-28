@@ -1,7 +1,7 @@
 /* eslint-disable max-len, no-nested-ternary  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Accordion } from '@material-ui/core';
 
 import Summary from './Summary';
@@ -9,16 +9,27 @@ import Details from './Details';
 // import { CodeSnippet } from 'components/test';
 import { useToggle } from '../../../style/base';
 
-const StyledExpansionPanel = styled(({ pass, fail, ...props }) => (
+const StyledExpansionPanel = styled(({ pass, fail, isNested, ...props }) => (
     <Accordion {...props} />
 ))`
-    border-left: 3px solid
-        ${(props) =>
-            props.pass
-                ? props.theme.color.green500
-                : props.fail
-                ? props.theme.color.red500
-                : props.theme.color.grey};
+    ${(props) =>
+        props.isNested &&
+        css`
+            padding-left: ${props.theme.spacing(0)}px;
+        `};
+
+    ${(props) =>
+        !props.isNested &&
+        css`
+            border-left: 3px solid
+                ${() =>
+                    props.pass
+                        ? props.theme.color.green500
+                        : props.fail
+                        ? props.theme.color.red500
+                        : props.theme.color.grey};
+        `};
+
     box-shadow: none;
 
     &::before {
@@ -34,10 +45,11 @@ const StyledExpansionPanel = styled(({ pass, fail, ...props }) => (
     }
 `;
 
-const Test = ({ test, enableCode }) => {
+const Test = ({ test, enableCode, isNested }) => {
     const {
         uuid,
         title,
+        options = {},
         speed,
         duration,
         pass,
@@ -49,6 +61,8 @@ const Test = ({ test, enableCode }) => {
         code,
         context,
     } = test;
+
+    const { description } = options;
 
     const [expanded, toggleExpanded] = useToggle(false);
 
@@ -68,6 +82,7 @@ const Test = ({ test, enableCode }) => {
             expanded={expanded}
             pass={pass}
             fail={fail}
+            isNested={isNested}
             onChange={toggleExpandedState}>
             <Summary
                 title={title}
@@ -80,8 +95,10 @@ const Test = ({ test, enableCode }) => {
                 isHook={isHook}
                 isExpanded={expanded}
                 hasContext={!!context}
+                isNested={isNested}
             />
             <Details
+                description={description}
                 passed={pass}
                 failed={fail}
                 error={err}

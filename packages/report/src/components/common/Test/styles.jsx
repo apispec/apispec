@@ -29,6 +29,16 @@ Title.defaultProps = {
     secondary: false,
 };
 
+const Description = ({ children }) => <Typography>{children}</Typography>;
+
+Description.propTypes = {
+    children: PropTypes.element,
+};
+
+Description.defaultProps = {
+    children: '',
+};
+
 // TODO: colors error red500
 const ErrorMessage = ({ children }) => {
     return (
@@ -82,4 +92,4 @@ const Title = styled(Typography)`
     `}
 `;
 */
-export { Title, ErrorMessage };
+export { Title, Description, ErrorMessage };

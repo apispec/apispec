@@ -1,19 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TestList = ({ tests, beforeHooks, afterHooks, enableCode, Test }) => (
+const TestList = ({
+    tests,
+    beforeHooks,
+    afterHooks,
+    enableCode,
+    isNested,
+    Test,
+}) => (
     <>
         {!!beforeHooks &&
             beforeHooks.map((test) => (
-                <Test key={test.uuid} test={test} enableCode={enableCode} />
+                <Test
+                    key={test.uuid}
+                    test={test}
+                    enableCode={enableCode}
+                    isNested={isNested}
+                />
             ))}
         {!!tests &&
             tests.map((test) => (
-                <Test key={test.uuid} test={test} enableCode={enableCode} />
+                <Test
+                    key={test.uuid}
+                    test={test}
+                    enableCode={enableCode}
+                    isNested={isNested}
+                />
             ))}
         {!!afterHooks &&
             afterHooks.map((test) => (
-                <Test key={test.uuid} test={test} enableCode={enableCode} />
+                <Test
+                    key={test.uuid}
+                    test={test}
+                    enableCode={enableCode}
+                    isNested={isNested}
+                />
             ))}
     </>
 );

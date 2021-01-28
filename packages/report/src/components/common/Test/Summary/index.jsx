@@ -2,7 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, AccordionSummary } from '@material-ui/core';
-import { ChatBubbleOutline, ExpandMore } from '@material-ui/icons';
+import {
+    ChatBubbleOutline,
+    ExpandMore,
+    ArrowForwardIosRounded,
+} from '@material-ui/icons';
 
 import Duration from '../../Duration';
 import IconLabel from '../../IconLabel';
@@ -20,59 +24,76 @@ const TestSummary = ({
     isHook,
     isExpanded,
     hasContext,
+    isNested,
 }) => {
     return (
         <AccordionSummary
             expandIcon={<ExpandMore />}
             aria-controls='panel1a-content'
             id='panel1a-header'>
-            <Box display='flex' flexDirection='column' flexGrow={1}>
-                <Box display='flex' flexGrow={1}>
-                    {isHook ? (
-                        <span>hook</span>
-                    ) : (
-                        <IconStatus
-                            status={
-                                passed
-                                    ? 'passed'
-                                    : failed
-                                    ? 'failed'
-                                    : pending
-                                    ? 'pending'
-                                    : 'skipped'
-                            }
-                            boxProps={{ mr: 2, fontSize: '1.5rem' }}
-                        />
-                    )}
-                    <Title truncate={!isExpanded} secondary={isHook}>
-                        {title}
-                    </Title>
-                    <Box display='flex'>
-                        {hasContext && (
-                            <IconLabel
-                                text=''
-                                color='text.hint'
-                                Icon={ChatBubbleOutline}
-                            />
-                        )}
-                        {!isHook && (
-                            <Duration
-                                expanded={isExpanded}
-                                pending={pending}
-                                ms={duration}
-                                color={
-                                    isExpanded
-                                        ? 'text.primary'
-                                        : 'text.secondary'
-                                }
-                                hoverColor='text.primary'
-                                speed={speed}
-                                iconAfter
-                            />
-                        )}
+            <Box display='flex' flexGrow={1}>
+                {isNested && (
+                    <Box
+                        display='flex'
+                        alignItems='center'
+                        pr={2}
+                        color='text.secondary'>
+                        <ArrowForwardIosRounded />
                     </Box>
+                )}
+                <Box display='flex' flexDirection='column' flexGrow={1}>
+                    <Box display='flex' flexGrow={1}>
+                        {isHook ? (
+                            <span>hook</span>
+                        ) : (
+                            <IconStatus
+                                status={
+                                    passed
+                                        ? 'passed'
+                                        : failed
+                                        ? 'failed'
+                                        : pending
+                                        ? 'pending'
+                                        : 'skipped'
+                                }
+                                boxProps={{
+                                    mr: 2,
+                                    fontSize: isNested ? '1rem' : '1.5rem',
+                                }}
+                            />
+                        )}
+                        <Title truncate={!isExpanded} secondary={isHook}>
+                            {title}
+                        </Title>
+                        <Box display='flex'>
+                            {hasContext && (
+                                <IconLabel
+                                    text=''
+                                    color='text.hint'
+                                    Icon={ChatBubbleOutline}
+                                />
+                            )}
+                            {!isHook && (
+                                <Duration
+                                    expanded={isExpanded}
+                                    pending={pending}
+                                    ms={duration}
+                                    color={
+                                        isExpanded
+                                            ? 'text.primary'
+                                            : 'text.secondary'
+                                    }
+                                    hoverColor='text.primary'
+                                    speed={speed}
+                                    iconAfter
+                                />
+                            )}
+                        </Box>
+                    </Box>
+                    {!!errorMessage && (
+                        <ErrorMessage>{errorMessage}</ErrorMessage>
+                    )}
                 </Box>
-                {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             </Box>
         </AccordionSummary>
     );

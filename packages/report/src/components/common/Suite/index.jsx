@@ -12,6 +12,7 @@ import {
     Description,
 } from './styles';
 import Chart from './Chart';
+import SuiteCompact from './Compact';
 import Tests from '../Tests';
 // import TestListMui from '../test/list-mui';
 // import SuiteListMui from './list-mui'
@@ -24,6 +25,7 @@ const Suite = ({
     enableChart,
     enableCode,
     isMain,
+    compact,
     TitleComponent,
     DescriptionComponent,
     Actions,
@@ -68,16 +70,29 @@ const Suite = ({
         Actions,
         Test,
     };
+    // TODO: CompositeTest instead of SuiteCompact
+    // TODO: instead of triggering by level, might trigger in options with compositeTest
     const subSuites = (isMain2) =>
         hasSuites &&
-        suites.map((subsuite) => (
-            <Suite
-                key={subsuite.uuid}
-                suite={subsuite}
-                isMain={isMain2}
-                {...subSuiteProps}
-            />
-        ));
+        (!isMain && !isMain2
+            ? suites.map((subsuite) => (
+                  <SuiteCompact
+                      key={subsuite.uuid}
+                      suite={subsuite}
+                      isMain={isMain2}
+                      Test={Test}
+                      {...subsuite}
+                      {...subSuiteProps}
+                  />
+              ))
+            : suites.map((subsuite) => (
+                  <Suite
+                      key={subsuite.uuid}
+                      suite={subsuite}
+                      isMain={isMain2}
+                      {...subSuiteProps}
+                  />
+              )));
     /*
     const summaryProps = {
         duration,
@@ -97,6 +112,7 @@ const Suite = ({
         totalSkipped,
         size: 75,
     };
+
     if (rootEmpty && !hasBeforeHooks && !hasAfterHooks) {
         return subSuites(true);
     }
@@ -146,6 +162,7 @@ const Suite = ({
 Suite.propTypes = {
     suite: PropTypes.shape().isRequired,
     isMain: PropTypes.bool,
+    compact: PropTypes.bool,
     enableChart: PropTypes.bool,
     enableCode: PropTypes.bool,
     TitleComponent: PropTypes.elementType,
@@ -156,6 +173,7 @@ Suite.propTypes = {
 
 Suite.defaultProps = {
     isMain: false,
+    compact: false,
     enableChart: false,
     enableCode: false,
     TitleComponent: Title,

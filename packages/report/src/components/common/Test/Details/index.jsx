@@ -2,17 +2,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { AccordionDetails, Tabs, Tab } from '@material-ui/core';
+import { AccordionDetails, Tabs, Tab, Box } from '@material-ui/core';
 import CodeSnippet from '../../CodeSnippet';
+import { Description } from '../styles';
 
 const StyledExpansionPanelDetails = styled(AccordionDetails)`
     padding: 0;
     flex-direction: column;
-    background-color: ${(props) => props.theme.color.nearwhite};
 `;
 
 const StyledTabs = styled(Tabs)`
     padding: ${(props) => props.theme.spacing(0, 3)};
+    background-color: ${(props) => props.theme.color.nearwhite};
 
     & .MuiTabs-indicator {
         ${(props) =>
@@ -40,7 +41,15 @@ const TabContent = styled.div`
     border-top: 1px solid ${(props) => props.theme.palette.divider};
 `;
 
-const TestDetails = ({ passed, failed, error, code, context, enableCode }) => {
+const TestDetails = ({
+    description,
+    passed,
+    failed,
+    error,
+    code,
+    context,
+    enableCode,
+}) => {
     const cntxt = context ? JSON.parse(context) : [];
 
     const tabs = {};
@@ -81,6 +90,11 @@ const TestDetails = ({ passed, failed, error, code, context, enableCode }) => {
 
     return (
         <StyledExpansionPanelDetails>
+            {description && (
+                <Box px={2} pt={0} pb={3}>
+                    <Description>{description}</Description>
+                </Box>
+            )}
             <StyledTabs
                 value={selectedTab}
                 onChange={onTabSelect}
@@ -116,6 +130,7 @@ const TestDetails = ({ passed, failed, error, code, context, enableCode }) => {
 };
 
 TestDetails.propTypes = {
+    description: PropTypes.string,
     passed: PropTypes.bool,
     failed: PropTypes.bool,
     error: PropTypes.shape(),
@@ -125,6 +140,7 @@ TestDetails.propTypes = {
 };
 
 TestDetails.defaultProps = {
+    description: null,
     passed: false,
     failed: false,
     error: null,
