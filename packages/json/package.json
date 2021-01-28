@@ -10,6 +10,8 @@
     },
     "dependencies": {
         "@apispec/core": "*",
+        "ajv": "^7.0.3",
+        "chai-json-schema-ajv": "^5.2.3",
         "chai-match-pattern": "^1.2.0"
     },
     "devDependencies": {
