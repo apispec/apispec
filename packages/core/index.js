@@ -1,5 +1,7 @@
 const { resolve } = require('path');
 const addContext = require('mochawesome/addContext');
+const initCache = require('./cache');
+const initResources = require('./resources');
 
 const parameters = {
     protocol: {
@@ -8,8 +10,9 @@ const parameters = {
 };
 
 const init = () => {
-    const pkgPath = resolve(process.cwd(), 'package.json');
-    const rcPath = resolve(process.cwd(), '.apispecrc.js');
+    const rootDir = process.cwd();
+    const pkgPath = resolve(rootDir, 'package.json');
+    const rcPath = resolve(rootDir, '.apispecrc.js');
     console.log('RC', rcPath);
 
     const pkg = require(pkgPath);
@@ -20,10 +23,13 @@ const init = () => {
         ...rc,
         name: pkg.name,
         version: pkg.version,
+        cache: initCache({ ...rc, rootDir }),
+        resources: initResources({ ...rc, rootDir }),
+        rootDir,
     };
     console.log('OPTS', opts);
 
-    validateParameters(parameters, opts, 'core')
+    validateParameters(parameters, opts, 'core');
 
     const { plugins, protocol, contentTypes } = opts;
 
@@ -35,7 +41,7 @@ const init = () => {
         (plugin) => plugin.type === 'protocol' && plugin.name === protocol
     );
 
-    validatePlugin(protocolPlugin, `protocol '${protocol}'`, opts)
+    validatePlugin(protocolPlugin, `protocol '${protocol}'`, opts);
 
     const contentPlugins = {};
 
@@ -44,31 +50,45 @@ const init = () => {
             (plugin) => plugin.type === 'content' && plugin.name === contentType
         );
 
-        validatePlugin(contentPlugin, `content type '${contentType}'`, opts)
+        validatePlugin(contentPlugin, `content type '${contentType}'`, opts);
 
         contentPlugins[contentType] = contentPlugin.init(opts);
     });
 
+    const shared = {};
+
     //TODO: server -> [protocol]
-    return { opts, server: protocolPlugin.init(opts), ...contentPlugins };
+    return {
+        opts,
+        server: protocolPlugin.init(opts),
+        ...contentPlugins,
+        save: (key, value, context = 'GLOBAL') => {
+            if (!shared[context]) shared[context] = {};
+            shared[context][key] = value;
+        },
+        load: (key, context = 'GLOBAL') => {
+            if (!shared[context]) shared[context] = {};
+            return shared[context][key];
+        },
+    };
 };
 
 const validatePlugin = (plugin, name, opts) => {
     if (plugin === undefined) {
-        throw new Error(
-            `Invalid ${name}, no matching plugin found.`
-        );
+        throw new Error(`Invalid ${name}, no matching plugin found.`);
     }
 
-    validateParameters(plugin.parameters, opts, name)
-}
+    validateParameters(plugin.parameters, opts, name);
+};
 
 const validateParameters = (schema, values, requiredBy) => {
     Object.keys(schema).forEach((param) => {
         if (schema[param].required && !values[param]) {
-            throw new Error(`Required parameter '${param}' is not set (required by ${requiredBy}).`);
+            throw new Error(
+                `Required parameter '${param}' is not set (required by ${requiredBy}).`
+            );
         }
     });
-}
+};
 
 module.exports = { init, addContext, cfg: { todo: '' } };
