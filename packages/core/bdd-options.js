@@ -98,16 +98,16 @@ module.exports = Mocha.interfaces['bdd-options'] = function (suite) {
          * Exclusive test-case.
          */
 
-        context.it.only = function (title, fn) {
-            return common.test.only(mocha, context.it(title, fn));
+        context.it.only = function (options, fn) {
+            return common.test.only(mocha, context.it(options, fn));
         };
 
         /**
          * Pending test case.
          */
 
-        context.xit = context.xspecify = context.it.skip = function (title) {
-            return context.it(title);
+        context.xit = context.xspecify = context.it.skip = function (options) {
+            return context.it(options);
         };
 
         /**

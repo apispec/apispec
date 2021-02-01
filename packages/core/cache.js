@@ -4,16 +4,16 @@ const {
     readFile,
     writeFileSync,
 } = require('fs-extra');
-const { resolve } = require('path');
+const { resolve, dirname } = require('path');
 
 const createCache = (rootDir) => (subDirs = '') => {
     const cacheDir = resolve(rootDir, 'cache', subDirs);
 
     return {
         save: (name, content) => {
-            ensureDirSync(cacheDir);
-
             const path = resolve(cacheDir, name);
+            console.log('SAVING', path);
+            ensureDirSync(dirname(path));
             writeFileSync(path, content);
         },
         load: (name) => {
