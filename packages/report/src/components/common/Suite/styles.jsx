@@ -7,6 +7,7 @@ export const Card = styled(MuiCard)`
     ${(props) =>
         props.raised &&
         css`
+            margin-top: ${props.theme.spacing(6)}px;
             padding-left: ${props.theme.spacing(0, 2, 0, 0)};
         `};
 

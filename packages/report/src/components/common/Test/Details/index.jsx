@@ -49,6 +49,7 @@ const TestDetails = ({
     code,
     context,
     enableCode,
+    isInactive,
 }) => {
     const cntxt = context ? JSON.parse(context) : [];
 
@@ -95,36 +96,40 @@ const TestDetails = ({
                     <Description>{description}</Description>
                 </Box>
             )}
-            <StyledTabs
-                value={selectedTab}
-                onChange={onTabSelect}
-                color={passed ? 'success' : failed ? 'error' : 'neutral'}>
-                {Object.keys(tabs).map((key) => (
-                    <Tab
-                        key={key}
-                        value={key}
-                        label={tabs[key].title.toUpperCase()}
-                        disableRipple
-                    />
-                ))}
-            </StyledTabs>
-            <TabContent>
-                {/* highlight.js only works when component never changes, so we create one instance per code snippet */}
-                {Object.keys(tabs).map(
-                    (key) =>
-                        key === selectedTab && (
-                            <CodeSnippet
-                                key={key}
-                                code={tabs[key].value}
-                                lang={tabs[key].language}
-                                highlight={tabs[key].highlight}
-                                label={tabs[key].title}
-                            />
-                        )
-                )}
+            {!isInactive && (
+                <StyledTabs
+                    value={selectedTab}
+                    onChange={onTabSelect}
+                    color={passed ? 'success' : failed ? 'error' : 'neutral'}>
+                    {Object.keys(tabs).map((key) => (
+                        <Tab
+                            key={key}
+                            value={key}
+                            label={tabs[key].title.toUpperCase()}
+                            disableRipple
+                        />
+                    ))}
+                </StyledTabs>
+            )}
+            {!isInactive && (
+                <TabContent>
+                    {/* highlight.js only works when component never changes, so we create one instance per code snippet */}
+                    {Object.keys(tabs).map(
+                        (key) =>
+                            key === selectedTab && (
+                                <CodeSnippet
+                                    key={key}
+                                    code={tabs[key].value}
+                                    lang={tabs[key].language}
+                                    highlight={tabs[key].highlight}
+                                    label={tabs[key].title}
+                                />
+                            )
+                    )}
 
-                {/* !!context && <TestContext context={context} /> */}
-            </TabContent>
+                    {/* !!context && <TestContext context={context} /> */}
+                </TabContent>
+            )}
         </StyledExpansionPanelDetails>
     );
 };

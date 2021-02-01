@@ -27,7 +27,11 @@ const StyledExpansionPanel = styled(({ pass, fail, isNested, ...props }) => (
                         ? props.theme.color.green500
                         : props.fail
                         ? props.theme.color.red500
-                        : props.theme.color.grey};
+                        : props.theme.color.grey500};
+            background-color: ${() =>
+                props.pass || props.fail
+                    ? props.theme.color.white
+                    : props.theme.color.grey50};
         `};
 
     box-shadow: none;
@@ -67,7 +71,13 @@ const Test = ({ test, enableCode, isNested }) => {
     const [expanded, toggleExpanded] = useToggle(false);
 
     const toggleExpandedState = () => {
-        if ((enableCode && pass) || !!context || fail || isHook) {
+        if (
+            (enableCode && pass) ||
+            !!context ||
+            fail ||
+            isHook ||
+            !!description
+        ) {
             toggleExpanded();
         }
     };
@@ -78,7 +88,7 @@ const Test = ({ test, enableCode, isNested }) => {
         <StyledExpansionPanel
             id={uuid}
             square
-            disabled={isInactive}
+            disabled={false}
             expanded={expanded}
             pass={pass}
             fail={fail}
@@ -90,7 +100,7 @@ const Test = ({ test, enableCode, isNested }) => {
                 speed={speed}
                 passed={pass}
                 failed={fail}
-                pending={pending}
+                pending={pending || skipped}
                 errorMessage={err && err.message ? err.message : null}
                 isHook={isHook}
                 isExpanded={expanded}
@@ -105,6 +115,7 @@ const Test = ({ test, enableCode, isNested }) => {
                 code={code}
                 context={context}
                 enableCode={enableCode}
+                isInactive={isInactive}
             />
         </StyledExpansionPanel>
     );
