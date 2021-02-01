@@ -11,8 +11,10 @@
     "dependencies": {
         "@apispec/core": "*",
         "ajv": "^7.0.3",
+        "ajv-formats": "^1.5.1",
         "chai-json-schema-ajv": "^5.2.3",
-        "chai-match-pattern": "^1.2.0"
+        "chai-match-pattern": "^1.2.0",
+        "json-schema-migrate": "^1.0.0"
     },
     "devDependencies": {
         "mocha": "^8.1.3"

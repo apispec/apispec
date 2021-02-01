@@ -1,35 +1,48 @@
 const Ajv = require('ajv').default;
+const addFormats = require('ajv-formats');
 const superagent = require('superagent');
 const util = require('util');
+
+const isUrl = (path) => path.substr(0, 4) === 'http';
 
 const remoteSchemaLoader = (baseUri, cache) => {
     const schemaCache = cache ? cache.create('schemas') : null;
 
-    const load = (path) =>
-        superagent.get(baseUri + path).then((res) => {
-            if (res.statusCode >= 400)
-                throw new Error('Loading error: ' + res.statusCode);
+    const load = (url) =>
+        superagent
+            .get(url)
+            .buffer()
+            .then((res) => {
+                console.log('LOADED', url, res.statusCode, res);
+                if (res.statusCode >= 400)
+                    throw new Error('Loading error: ' + res.statusCode);
 
-            return res.text;
-        });
+                return res.text || (res.body && res.body.toString());
+            });
 
     return (path) => {
+        const url = isUrl(path) ? path : baseUri + path;
+        const cachePath = url.replace('http://', '').replace('https://', '');
+
+        console.log('LOADING', url, cachePath);
+
         const schema = schemaCache
-            ? schemaCache.load(path).catch((err) => {
-                  console.log('NOT CACHED', err);
-                  return load(path).then((schema) => {
-                      schemaCache.save(path, schema);
+            ? schemaCache.load(cachePath).catch((err) => {
+                  console.log('NOT CACHED', err, cachePath);
+                  return load(url).then((schema) => {
+                      console.log('LOADED', url, schema);
+                      schemaCache.save(cachePath, schema);
 
                       return schema;
                   });
               })
-            : load(path);
+            : load(url);
 
         return schema
             .then((schema) => {
                 return schema
-                    .replace(/\$href/g, '$ref')
-                    .replace(/title/g, 'titl'); //TODO
+                    .replace(/\$href/g, '$ref') //TODO: bug in landingPage.json
+                    .replace(/title/g, 'titl'); //TODO: force fail, remove when done
             })
             .then((schema) => {
                 return JSON.parse(schema);
@@ -46,8 +59,8 @@ const localSchemaLoader = (basePath, resources) => {
         return schema
             .then((schema) => {
                 return schema
-                    .replace(/\$href/g, '$ref')
-                    .replace(/title/g, 'titl'); //TODO
+                    .replace(/\$href/g, '$ref') //TODO: bug in landingPage.json
+                    .replace(/title/g, 'titl'); //TODO: force fail, remove when done
             })
             .then((schema) => {
                 return JSON.parse(schema);
@@ -56,10 +69,27 @@ const localSchemaLoader = (basePath, resources) => {
 };
 
 const validateAgainstSchema = (json, schemaPath, loadSchema) => {
-    const ajv = new Ajv({ strict: 'log', loadSchema: loadSchema });
+    const ajv = new Ajv({
+        strict: 'log',
+        loadSchema: loadSchema,
+    });
+    addFormats(ajv);
 
     return loadSchema(schemaPath)
         .then((schema) => {
+            // draft-04 is no longer supported, leads to endless recursion
+            if (
+                schema.$schema &&
+                schema.$schema === 'http://json-schema.org/draft-04/schema#'
+            ) {
+                const validate = () => false;
+                validate.errors = [
+                    {
+                        message: `JSON Schema draft-04 is not supported (${schemaPath}).`,
+                    },
+                ];
+                return Promise.resolve(validate);
+            }
             return ajv.compileAsync(schema);
         })
         .then((validate) => {
@@ -93,8 +123,6 @@ const createAssertion = (validationResult, context, verbose = false) => {
         `expected ${placeholder} to not match json-schema`
     );
 };
-
-const isUrl = (path) => path.substr(0, 4) === 'http';
 
 module.exports = (opts, chai) => ({
     // needs to be actual function for this to work
