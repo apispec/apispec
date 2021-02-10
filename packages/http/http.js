@@ -1,6 +1,6 @@
-const { agent, Test } = require('supertest');
-const { addContext } = require('@apispec/core');
-const methods = require('methods');
+import { agent, Test } from'supertest';
+import { addContext } from '@apispec/core';
+import methods from 'methods';
 
 agent.prototype.context = function (context) {
     this.testContext = context;
@@ -63,4 +63,4 @@ Test.prototype.assert = function (resError, res, fn) {
     originalAssert.call(this, resError, res, fn);
 };
 
-module.exports = agent;
+export default agent;

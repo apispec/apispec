@@ -69,7 +69,8 @@ function run(emit, opts) {
             // Add each .js file to the mocha instance
             klawSync(testDir, {
                 nodir: true,
-                filter: ({ path }) => path.substr(-3) === '.js',
+                filter: ({ path }) =>
+                    path.substr(-3) === '.js' || path.substr(-4) === '.mjs',
             }).forEach(({ path }) => {
                 // TODO: delete hooks in barista-package
                 // delete require.cache[path.resolve(file)]
@@ -77,49 +78,30 @@ function run(emit, opts) {
                 console.log(path);
             });
 
-            try {
-                // Run the tests.
-                mocha.run(function (failures) {
-                    console.log('done');
+            mocha
+                .loadFilesAsync()
+                .then(() =>
+                    mocha.run(function (failures) {
+                        console.log('done');
 
-                    jsonfile.readFile(report, function (err, obj) {
-                        if (obj) {
-                            emit('action', {
-                                type: 'mochaui/report',
-                                data: obj,
-                            });
-                        } else {
-                            emit('action', {
-                                type: 'mochaui/report',
-                                data: { reportTitle: 'barista error' },
-                            });
-                        }
-                    });
+                        jsonfile.readFile(report, function (err, obj) {
+                            if (obj) {
+                                emit('action', {
+                                    type: 'mochaui/report',
+                                    data: obj,
+                                });
+                            } else {
+                                emit('action', {
+                                    type: 'mochaui/report',
+                                    data: { reportTitle: 'barista error' },
+                                });
+                            }
+                        });
 
-                    mocha.unloadFiles();
-
-                    /* forEach(require.cache, function(key, value) {
-                    if (key.indexOf('src/hook.js') > -1) console.log(key);
-                }); */
-
-                    /* emit('action', {
-                    type: 'mochaui/report',
-                    data: {
-                        reportTitle: 'barista ' + (failures ? 'failed' : 'succeeded')
-                    }
-                }); */
-
-                    /* jsonfile.readFile(report, function(err, obj) {
-                    if (obj) {
-                        emit('action', { type: 'mochaui/report', data: obj });
-                    } else {
-                        emit('action', { type: 'mochaui/report', data: { reportTitle: 'barista error' } });
-                    }
-                }) */
-                });
-            } catch (error) {
-                console.error('ERROR', error);
-            }
+                        mocha.unloadFiles();
+                    })
+                )
+                .catch((error) => console.error('ERROR', error));
         }
     });
 }

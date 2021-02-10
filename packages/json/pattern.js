@@ -1,6 +1,6 @@
-const matchPattern = require('lodash-match-pattern');
+import matchPattern from 'lodash-match-pattern';
 
-module.exports = (opts, chai) => ({
+export default (opts, chai) => ({
     matchesExact: function (pattern) {
         const obj = this._obj;
         const matches = matchPattern(obj, pattern);

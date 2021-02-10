@@ -1,6 +1,6 @@
-const http = require('./http');
+import http from './http.js';
 
-module.exports = {
+export default {
     type: 'protocol',
     name: 'http',
     parameters: {

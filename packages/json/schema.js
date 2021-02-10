@@ -1,7 +1,7 @@
-const Ajv = require('ajv').default;
-const addFormats = require('ajv-formats');
-const superagent = require('superagent');
-const util = require('util');
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+import superagent from 'superagent';
+import util from 'util';
 
 const isUrl = (path) => path.substr(0, 4) === 'http';
 
@@ -124,7 +124,7 @@ const createAssertion = (validationResult, context, verbose = false) => {
     );
 };
 
-module.exports = (opts, chai) => ({
+export default (opts, chai) => ({
     // needs to be actual function for this to work
     compliesToSchema: function (path, basePath, useCache = true) {
         const schemaLoader = isUrl(basePath)

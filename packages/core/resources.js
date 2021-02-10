@@ -1,5 +1,6 @@
-const { readFileSync, readFile } = require('fs-extra');
-const { resolve } = require('path');
+import fsExtra from 'fs-extra';
+import { resolve } from 'path';
+const { readFileSync, readFile } = fsExtra;
 
 const createResourceLoader = (rootDir) => (subDirs = '') => {
     const resourceDir = resolve(rootDir, subDirs);
@@ -16,7 +17,7 @@ const createResourceLoader = (rootDir) => (subDirs = '') => {
     };
 };
 
-module.exports = (opts) => {
+export default (opts) => {
     const { rootDir } = opts;
 
     return {

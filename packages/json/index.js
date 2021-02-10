@@ -1,8 +1,8 @@
-const chai = require('chai');
-const matchPattern = require('lodash-match-pattern');
-const patternAssertions = require('./pattern');
-const schemaAssertions = require('./schema');
-const util = require('util');
+import chai from 'chai';
+import matchPattern from 'lodash-match-pattern';
+import patternAssertions from './pattern.js';
+import schemaAssertions from './schema.js';
+import util from 'util';
 
 const init = (opts) => {
     chai.use(function (_chai, utils) {
@@ -47,7 +47,7 @@ const cleanupError = (error) => {
     return error;
 };
 
-module.exports = {
+export default {
     type: 'content',
     name: 'json',
     parameters: {},

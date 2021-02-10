@@ -5,13 +5,14 @@
     "license": "MIT",
     "repository": "https://github.com/apispec/apispec",
     "author": "azahnen",
+    "type": "module",
     "scripts": {
         "postinstall": "patch-package"
     },
     "dependencies": {
         "@apispec/report": "*",
         "chai": "^4.2.0",
-        "mocha": "^6.2.0",
+        "mocha": "^8.2.1",
         "mochawesome": "^4.1.0",
         "patch-package": "^6.1.2",
         "postinstall-postinstall": "^2.0.0"

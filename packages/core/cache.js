@@ -1,10 +1,7 @@
-const {
-    ensureDirSync,
-    readFileSync,
-    readFile,
-    writeFileSync,
-} = require('fs-extra');
-const { resolve, dirname } = require('path');
+import fsExtra from 'fs-extra';
+import { resolve, dirname } from 'path';
+
+const { ensureDirSync, readFileSync, readFile, writeFileSync } = fsExtra;
 
 const createCache = (rootDir) => (subDirs = '') => {
     const cacheDir = resolve(rootDir, 'cache', subDirs);
@@ -27,7 +24,7 @@ const createCache = (rootDir) => (subDirs = '') => {
     };
 };
 
-module.exports = (opts) => {
+export default (opts) => {
     const { rootDir } = opts;
 
     return {
