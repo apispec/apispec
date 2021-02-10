@@ -1,7 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Box, Typography, Card as MuiCard } from '@material-ui/core';
+import {
+    Box,
+    Typography,
+    Card as MuiCard,
+    Link,
+    TableContainer,
+    Table,
+    TableHead,
+    TableBody,
+    TableFooter,
+    TableRow,
+    TableCell,
+    Paper,
+} from '@material-ui/core';
+import Markdown from 'markdown-to-jsx';
 
 export const Card = styled(MuiCard)`
     ${(props) =>
@@ -38,8 +52,41 @@ Title.defaultProps = {
     title: '',
 };
 
+const headings = [1, 2, 3, 4, 5, 6].reduce((obj, level) => {
+    const result = { ...obj };
+    result[`h${level}`] = {
+        component: Typography,
+        props: { variant: `h${level}` },
+    };
+    return result;
+}, {});
+
+const overrides = {
+    a: { component: Link, props: { color: 'secondary' } },
+    p: { component: Typography },
+    // table: { component: Table, props: { size: 'small' } },
+    table: {
+        component: (props) => (
+            <TableContainer
+                component={Paper}
+                variant='outlined'
+                square
+                elevation={0}>
+                <Table size='small' {...props} />
+            </TableContainer>
+        ),
+    },
+    td: { component: TableCell },
+    tbody: { component: TableBody },
+    tfoot: { component: TableFooter },
+    th: { component: TableCell },
+    thead: { component: TableHead },
+    tr: { component: TableRow },
+    ...headings,
+};
+
 export const Description = ({ description }) => (
-    <Typography>{description}</Typography>
+    <Markdown options={{ overrides }}>{description}</Markdown>
 );
 
 Description.propTypes = {

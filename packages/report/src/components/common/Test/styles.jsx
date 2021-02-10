@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // import styled from 'styled-components';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, Link } from '@material-ui/core';
+import Markdown from 'markdown-to-jsx';
 
 // TODO: colors textSecondary black54
 const Title = ({ children, truncate, secondary }) => {
@@ -29,7 +30,21 @@ Title.defaultProps = {
     secondary: false,
 };
 
-const Description = ({ children }) => <Typography>{children}</Typography>;
+const overrides = {
+    a: { component: Link },
+    p: { component: Typography },
+    /* table: { component: Table },
+      td: { component: TableCell },
+      tbody: { component: TableBody },
+      tfoot: { component: TableFooter },
+      th: { component: TableCell },
+      thead: { component: TableHeader },
+      tr: { component: TableRow }, */
+};
+
+const Description = ({ children }) => (
+    <Markdown options={{ overrides }}>{children}</Markdown>
+);
 
 Description.propTypes = {
     children: PropTypes.element,
