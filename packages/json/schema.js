@@ -2,6 +2,7 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import superagent from 'superagent';
 import util from 'util';
+import path from 'path';
 
 const isUrl = (path) => path.substr(0, 4) === 'http';
 
@@ -20,8 +21,8 @@ const remoteSchemaLoader = (baseUri, cache) => {
                 return res.text || (res.body && res.body.toString());
             });
 
-    return (path) => {
-        const url = isUrl(path) ? path : baseUri + path;
+    return (file) => {
+        const url = isUrl(file) ? file : new URL(file, baseUri).toString();
         const cachePath = url.replace('http://', '').replace('https://', '');
 
         console.log('LOADING', url, cachePath);
@@ -69,7 +70,8 @@ const localSchemaLoader = (basePath, resources) => {
 };
 
 const validateAgainstSchema = (json, schemaPath, loadSchema) => {
-    const ajv = new Ajv({
+    //TODO
+    const ajv = new Ajv.default({
         strict: 'log',
         loadSchema: loadSchema,
     });
@@ -126,7 +128,11 @@ const createAssertion = (validationResult, context, verbose = false) => {
 
 export default (opts, chai) => ({
     // needs to be actual function for this to work
-    compliesToSchema: function (path, basePath, useCache = true) {
+    compliesToSchema: function (
+        file,
+        basePath = path.dirname(file),
+        useCache = true
+    ) {
         const schemaLoader = isUrl(basePath)
             ? remoteSchemaLoader(basePath, useCache ? opts.cache : null)
             : localSchemaLoader(basePath, opts.resources);
@@ -135,7 +141,7 @@ export default (opts, chai) => ({
 
         return {
             end: (done) =>
-                validateAgainstSchema(json, path, schemaLoader)
+                validateAgainstSchema(json, file, schemaLoader)
                     .then((result) => {
                         createAssertion(result, context, opts.verbose);
                         done();
