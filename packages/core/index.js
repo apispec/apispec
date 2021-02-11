@@ -31,9 +31,9 @@ const validatePlugin = (plugin, name, opts) => {
 
 let core;
 
-export const init = async () => {
+export const init = async (rootDir = process.cwd()) => {
     if (!core) {
-        const rootDir = process.cwd();
+        //const rootDir = process.cwd();
         const pkgPath = resolve(rootDir, 'package.json');
         const rcPath = resolve(rootDir, '.apispecrc.js');
         console.log('RC', rcPath);

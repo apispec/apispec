@@ -1,22 +1,21 @@
-const fs = require('fs');
-const { resolve } = require('path');
-// var forEach = require('for-each');
-const klawSync = require('klaw-sync');
-const jsonfile = require('jsonfile');
-const Mocha = require('mocha');
+import fs from 'fs-extra';
+import { resolve } from 'path';
+// var forEach from 'for-each');
+import klawSync from 'klaw-sync';
+import jsonfile from 'jsonfile';
+import Mocha from 'mocha';
 // require('mocha-clean');
-const config = require('../cfg/config.js');
+import config from '../cfg/config.js';
 
-const reporter = require('./reporter');
+import reporter from './reporter.js';
 
 const report = 'report/index.json';
 
 function run(emit, opts) {
-    const cfg = require.resolve('./.mocharc.json', { paths: [config.testDir] });
+    const cfg = resolve(config.testDir, '.mocharc.json');
     console.log(cfg);
-    delete require.cache[cfg];
     // eslint-disable-next-line global-require, import/no-dynamic-require
-    const userOptions = require(cfg);
+    const userOptions = fs.readJSONSync(cfg);
 
     const options = {
         ...userOptions,
@@ -56,7 +55,7 @@ function run(emit, opts) {
     // delete require.cache[path.resolve('../barista-package/src/common.js')]
     // delete require.cache[path.resolve('../barista-package/src/hook.js')]
     // delete require.cache[path.resolve('../barista-package/index.js')]
-    const testDir = resolve(config.testDir, 'test');
+    const testDir = resolve(config.testDir, 'spec');
 
     fs.access(testDir, fs.R_OK, (err) => {
         if (err) {
@@ -81,10 +80,10 @@ function run(emit, opts) {
             mocha
                 .loadFilesAsync()
                 .then(() =>
-                    mocha.run(function (failures) {
+                    mocha.run((failures) => {
                         console.log('done');
 
-                        jsonfile.readFile(report, function (err, obj) {
+                        jsonfile.readFile(report, (err, obj) => {
                             if (obj) {
                                 emit('action', {
                                     type: 'mochaui/report',
@@ -106,9 +105,9 @@ function run(emit, opts) {
     });
 }
 
-module.exports = {
+export default {
     onConnect(emit) {
-        reporter.onEnd(function (obj) {
+        reporter.onEnd((obj) => {
             console.log('reported');
             emit('action', {
                 type: 'mochaui/report',

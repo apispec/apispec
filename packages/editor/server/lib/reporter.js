@@ -1,29 +1,29 @@
-/*jshint loopfunc: true */
-const mocha = require('mocha');
-const _ = require('lodash');
-const uuid = require('node-uuid');
-//chalk     = require('chalk'),
-//const Highlight = require('highlight.js');
-//reportGen = require('./reportGenerator'),
-//stringify = require('json-stringify-safe'),
-//conf      = require('./config'),
-//templates = require('./templates.js'),
-//opener    = require('opener');
+/* jshint loopfunc: true */
+import mocha from 'mocha';
+import _ from 'lodash';
+import uuid from 'node-uuid';
+// chalk     from 'chalk'),
+// const Highlight from 'highlight.js');
+// reportGen from './reportGenerator'),
+// stringify from 'json-stringify-safe'),
+// conf      from './config'),
+// templates from './templates.js'),
+// opener    from 'opener');
 
-const Base = mocha.reporters.Base;
-//generateReport = reportGen.generateReport,
-//saveToFile = reportGen.saveToFile,
+const { Base } = mocha.reporters;
+// generateReport = reportGen.generateReport,
+// saveToFile = reportGen.saveToFile,
 let totalTestsRegistered;
 
-/*Highlight.configure({
+/* Highlight.configure({
     useBR: true,
     languages: ['javascript', 'json', 'http', 'xml', 'html']
-});*/
+}); */
 
-module.exports = {
+export default {
     mochawesome: Mochawesome,
-    onEnd: onEnd
-}
+    onEnd,
+};
 
 /**
  * Initialize a new reporter.
@@ -31,7 +31,7 @@ module.exports = {
  * @param {Runner} runner
  * @api public
  */
-var onEndCb;
+let onEndCb;
 function onEnd(cb) {
     onEndCb = cb;
 }
@@ -41,23 +41,23 @@ function Mochawesome(runner, options) {
     totalTestsRegistered = 0;
 
     // Create/Save necessary report dirs/files
-    //var reporterOpts = options.reporterOptions || {},
-    //config = conf(reporterOpts);
+    // var reporterOpts = options.reporterOptions || {},
+    // config = conf(reporterOpts);
 
-    //generateReport(config);
+    // generateReport(config);
 
-    var self = this;
+    const self = this;
     Base.call(self, runner);
 
     // Show the Spec Reporter in the console
     new mocha.reporters.Spec(runner);
 
-    var allSuites = {},
-        allTests = [],
-        allPending = [],
-        allFailures = [],
-        allPasses = [],
-        endCalled = false;
+    let allSuites = {};
+    const allTests = [];
+    const allPending = [];
+    const allFailures = [];
+    const allPasses = [];
+    let endCalled = false;
 
     runner.on('test end', function (test) {
         allTests.push(test);
@@ -84,54 +84,68 @@ function Mochawesome(runner, options) {
 
                 traverseSuites(allSuites);
 
-                var obj = {
-                    reportTitle: allSuites.title || 'barista', //config.reportTitle || process.cwd().split(config.splitChar).pop(),
-                    inlineAssets: true, //config.inlineAssets,
+                const obj = {
+                    reportTitle: allSuites.title || 'barista', // config.reportTitle || process.cwd().split(config.splitChar).pop(),
+                    inlineAssets: true, // config.inlineAssets,
                     stats: self.stats,
                     suites: allSuites,
                     allTests: allTests.map(cleanTest),
                     allPending: allPending.map(cleanTest),
                     allPasses: allPasses.map(cleanTest),
                     allFailures: allFailures.map(cleanTest),
-                    copyrightYear: new Date().getFullYear()
+                    copyrightYear: new Date().getFullYear(),
                 };
 
                 obj.stats.testsRegistered = totalTestsRegistered;
 
-                var passPercentage = Math.round((obj.stats.passes / (obj.stats.testsRegistered - obj.stats.pending)) * 1000) / 10;
-                var pendingPercentage = Math.round((obj.stats.pending / obj.stats.testsRegistered) * 1000) / 10;
+                const passPercentage =
+                    Math.round(
+                        (obj.stats.passes /
+                            (obj.stats.testsRegistered - obj.stats.pending)) *
+                            1000
+                    ) / 10;
+                const pendingPercentage =
+                    Math.round(
+                        (obj.stats.pending / obj.stats.testsRegistered) * 1000
+                    ) / 10;
 
                 obj.stats.passPercent = passPercentage;
                 obj.stats.pendingPercent = pendingPercentage;
-                obj.stats.other = (obj.stats.passes + obj.stats.failures + obj.stats.pending) - obj.stats.tests;
+                obj.stats.other =
+                    obj.stats.passes +
+                    obj.stats.failures +
+                    obj.stats.pending -
+                    obj.stats.tests;
                 obj.stats.hasOther = obj.stats.other > 0;
                 obj.stats.skipped = obj.stats.testsRegistered - obj.stats.tests;
                 obj.stats.hasSkipped = obj.stats.skipped > 0;
                 obj.stats.failures = obj.stats.failures - obj.stats.other;
                 obj.stats.passPercentClass = _getPercentClass(passPercentage);
-                obj.stats.pendingPercentClass = _getPercentClass(pendingPercentage);
+                obj.stats.pendingPercentClass = _getPercentClass(
+                    pendingPercentage
+                );
 
                 if (onEndCb) {
                     onEndCb(obj);
                 }
-                /*if (!templates.mochawesome) {
+                /* if (!templates.mochawesome) {
                   console.error('Mochawesome was unable to load the template.');
-                }*/
+                } */
 
-                /*saveToFile(stringify(obj, null, 2), config.reportJsonFile, function(){});
+                /* saveToFile(stringify(obj, null, 2), config.reportJsonFile, function(){});
                 saveToFile(templates.mochawesome(obj), config.reportHtmlFile, function() {
                   console.log('\n[' + chalk.gray('mochawesome') + '] Report saved to ' + config.reportHtmlFile + '\n\n');
                   if (config.autoOpen) {
                     opener(config.reportHtmlFile);
                   }
-                });*/
+                }); */
             }
-        } catch (e) { //required because thrown errors are not handled directly in the event emitter pattern and mocha does not have an "on error"
+        } catch (e) {
+            // required because thrown errors are not handled directly in the event emitter pattern and mocha does not have an "on error"
             console.error('Problem with mochawesome: %s', e.stack);
         }
     });
 }
-
 
 /**
  * HELPER FUNCTIONS
@@ -146,8 +160,8 @@ function Mochawesome(runner, options) {
  */
 
 function traverseSuites(suite) {
-    var queue = [],
-        next = suite;
+    const queue = [];
+    let next = suite;
     while (next) {
         if (next.root) {
             cleanSuite(next);
@@ -173,20 +187,20 @@ function traverseSuites(suite) {
 function cleanSuite(suite) {
     suite.uuid = uuid.v4();
 
-    var cleanTests = _.map(suite.tests, cleanTest);
-    var passingTests = _.where(cleanTests, {
-        state: 'passed'
+    const cleanTests = _.map(suite.tests, cleanTest);
+    const passingTests = _.where(cleanTests, {
+        state: 'passed',
     });
-    var failingTests = _.where(cleanTests, {
-        state: 'failed'
+    const failingTests = _.where(cleanTests, {
+        state: 'failed',
     });
-    var pendingTests = _.where(cleanTests, {
-        pending: true
+    const pendingTests = _.where(cleanTests, {
+        pending: true,
     });
-    var skippedTests = _.where(cleanTests, {
-        skipped: true
+    const skippedTests = _.where(cleanTests, {
+        skipped: true,
     });
-    var duration = 0;
+    let duration = 0;
 
     _.each(cleanTests, function (test) {
         duration += test.duration;
@@ -243,7 +257,7 @@ function cleanSuite(suite) {
         'uuid',
         'duration',
         'rootEmpty',
-        '_timeout'
+        '_timeout',
     ]);
 }
 
@@ -257,11 +271,13 @@ function cleanSuite(suite) {
  */
 
 function cleanTest(test) {
-    var code = test.fn ? test.fn.toString() : test.body,
-        err = test.err ? _.pick(test.err, ['name', 'message', 'stack']) : test.err,
-        codeSource;
+    const code = test.fn ? test.fn.toString() : test.body;
+    const err = test.err
+        ? _.pick(test.err, ['name', 'message', 'stack'])
+        : test.err;
+    let codeSource;
 
-    /*if (code) {
+    /* if (code) {
         codeSource = cleanCode(code);
         code = cleanCode(code);
         code = Highlight.fixMarkup(Highlight.highlightAuto(code).value);
@@ -274,9 +290,9 @@ function cleanTest(test) {
     var requests = 'none';
     if (test.requests) {
         requests = Highlight.fixMarkup(Highlight.highlightAuto(cleanRequest(test.requests)).value);
-    }*/
+    } */
 
-    var cleaned = {
+    const cleaned = {
         title: test.title,
         fullTitle: test.fullTitle(),
         timedOut: test.timedOut,
@@ -286,18 +302,18 @@ function cleanTest(test) {
         pass: test.state === 'passed',
         fail: test.state === 'failed',
         pending: test.pending,
-        code: code,
-        err: err,
+        code,
+        err,
         isRoot: test.parent.root,
         uuid: uuid.v4(),
         parentUUID: test.parent.uuid,
         parent: test.parent.title,
         file: test.parent.file,
-        requests: requests,
-        codeSource: codeSource
+        requests,
+        codeSource,
     };
 
-    cleaned.skipped = (!cleaned.pass && !cleaned.fail && !cleaned.pending);
+    cleaned.skipped = !cleaned.pass && !cleaned.fail && !cleaned.pending;
 
     return cleaned;
 }
@@ -309,13 +325,14 @@ function cleanTest(test) {
 
 function cleanCode(str) {
     str = str
-        .replace(/\r\n?|[\n\u2028\u2029]/g, '\n').replace(/^\uFEFF/, '')
+        .replace(/\r\n?|[\n\u2028\u2029]/g, '\n')
+        .replace(/^\uFEFF/, '')
         .replace(/^function *\(.*\) *{|\(.*\) *=> *{?/, '')
         .replace(/\s+\}$/, '');
 
-    var spaces = str.match(/^\n?( *)/)[1].length,
-        tabs = str.match(/^\n?(\t*)/)[1].length,
-        re = new RegExp('^\n?' + (tabs ? '\t' : ' ') + '{' + (tabs ? tabs : spaces) + '}', 'gm');
+    const spaces = str.match(/^\n?( *)/)[1].length;
+    const tabs = str.match(/^\n?(\t*)/)[1].length;
+    const re = new RegExp(`^\n?${tabs ? '\t' : ' '}{${tabs || spaces}}`, 'gm');
 
     str = str.replace(re, '');
     str = str.replace(/^\s+|\s+$/g, '');
@@ -323,8 +340,7 @@ function cleanCode(str) {
 }
 
 function cleanRequest(str) {
-    str = str
-        .replace(/\r\n?|[\n\u2028\u2029]/g, '\n').replace(/^\uFEFF/, '');
+    str = str.replace(/\r\n?|[\n\u2028\u2029]/g, '\n').replace(/^\uFEFF/, '');
     return str;
 }
 
@@ -355,9 +371,9 @@ function removeAllPropsFromObjExcept(obj, propsToKeep) {
 function _getPercentClass(pct) {
     if (pct <= 50) {
         return 'danger';
-    } else if (pct > 50 && pct < 80) {
-        return 'warning';
-    } else {
-        return 'success';
     }
+    if (pct > 50 && pct < 80) {
+        return 'warning';
+    }
+    return 'success';
 }

@@ -9,6 +9,6 @@
     "scripts": {},
     "dependencies": {
         "@apispec/core": "*",
-        "supertest": "^4.0.2"
+        "supertest": "^6.1.3"
     }
 }

@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('./server/server');
+await import('./server/index.js');

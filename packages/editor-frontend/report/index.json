@@ -1,0 +1,165 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 2,
+    "passes": 0,
+    "pending": 0,
+    "failures": 2,
+    "start": "2020-10-02T15:23:36.248Z",
+    "end": "2020-10-02T15:23:36.253Z",
+    "duration": 5,
+    "testsRegistered": 2,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c7695fca-9769-4e93-a195-8492860330bb",
+      "title": "",
+      "options": {},
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e9ddfbb7-671e-4936-877d-623090b89956",
+          "title": "Conformance Class Core",
+          "options": {
+            "title": "Conformance Class Core",
+            "description": "http://www.opengis.net/spec/ogcapi-common/1.0/conf/core",
+            "noFile": true
+          },
+          "fullFile": "/home/zahnen/development/apispec/packages/editor/dev/test/bla.js",
+          "file": "/dev/test/bla.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "727c2b52-96ed-4704-ad8e-c35167eb52dd",
+              "title": "Landing Page",
+              "options": {
+                "title": "Landing Page",
+                "description": "Requirement 2",
+                "noFile": true
+              },
+              "fullFile": "/home/zahnen/development/apispec/packages/editor/dev/test/bla.js",
+              "file": "/dev/test/bla.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "GET should return 200",
+                  "fullTitle": "Conformance Class Core Landing Page GET should return 200",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "http.context(this)\n    .get('/')\n    .query({ f: 'json' })\n    .set('Accept', 'application/json')\n    .expect('Content-Type', /json/)\n    .expect(200, done);",
+                  "err": {
+                    "message": "TypeError: Cannot read property 'context' of null",
+                    "estack": "TypeError: Cannot read property 'context' of null\n    at Context.<anonymous> (dev/test/bla.js:22:26)",
+                    "diff": null
+                  },
+                  "uuid": "46080f1d-b16d-444c-8e2b-baff1468d37f",
+                  "parentUUID": "727c2b52-96ed-4704-ad8e-c35167eb52dd",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "GET should return 201",
+                  "fullTitle": "Conformance Class Core Landing Page GET should return 201",
+                  "timedOut": false,
+                  "duration": 1,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "http.context(this)\n    .get('/')\n    .query({ f: 'json' })\n    .set('Accept', 'application/json')\n    .expect('Content-Type', /json/)\n    .expect(201, done);",
+                  "err": {
+                    "message": "TypeError: Cannot read property 'context' of null",
+                    "estack": "TypeError: Cannot read property 'context' of null\n    at Context.<anonymous> (dev/test/bla.js:31:26)",
+                    "diff": null
+                  },
+                  "uuid": "0a6015f5-2837-4c2c-b83b-c8e8e5bf4b52",
+                  "parentUUID": "727c2b52-96ed-4704-ad8e-c35167eb52dd",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [
+                "46080f1d-b16d-444c-8e2b-baff1468d37f",
+                "0a6015f5-2837-4c2c-b83b-c8e8e5bf4b52"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 1,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "6.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "index",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false
+      },
+      "version": "4.1.0"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "report",
+        "reportFilename": "index",
+        "inline": true,
+        "code": true,
+        "charts": true,
+        "saveJson": false,
+        "saveHtml": "false",
+        "htmlModule": "@apispec/report"
+      },
+      "version": "4.0.1"
+    }
+  }
+}

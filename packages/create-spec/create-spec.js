@@ -22,6 +22,7 @@ function createSpec(name, version, verbose, addJsonAsserts, useLocalApispec) {
         name: appName,
         version: '1.0.0',
         private: true,
+        type: 'module',
         scripts: {
             test: 'mocha',
             //TODO

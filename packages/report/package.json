@@ -33,7 +33,7 @@
         "@neutrinojs/mocha": "^9.4.0",
         "@neutrinojs/react": "^9.4.0",
         "eslint": "^7",
-        "eslint-config-prettier": "^6.11.0",
+        "eslint-config-prettier": "^7.2.0",
         "mocha": "^8",
         "neutrino": "^9.4.0",
         "webpack": "^4",

@@ -1,10 +1,12 @@
-const fs = require('fs');
-const beautify = require('js-beautify').js;
-const { init } = require('@apispec/core');
+import fs from 'fs';
+import jsBeautify from 'js-beautify';
+import { init } from '@apispec/core';
+import config from '../cfg/config.js';
 
-const { opts } = init();
+const { js: beautify } = jsBeautify;
+const { opts } = await init(config.testDir);
 
-module.exports = {
+export default {
     onAction(action, emit) {
         switch (action.type) {
             case 'editor/init':
