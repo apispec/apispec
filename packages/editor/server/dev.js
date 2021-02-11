@@ -1,6 +1,6 @@
 import express from 'express';
 import http from 'http';
-import socketio from 'socket.io';
+import { Server } from 'socket.io';
 import logger from 'morgan';
 import config from './cfg/config.js';
 import webpackDev from './routes/webpack-dev.js';
@@ -8,7 +8,7 @@ import socket from './routes/socket.js';
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = new Server(server);
 
 app.use(logger('combined'));
 

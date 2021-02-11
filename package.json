@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "create-spec": "create-spec",
     "postinstall": "patch-package --patch-dir ./packages/core/patches"
   },
   "devDependencies": {

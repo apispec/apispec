@@ -15,8 +15,7 @@
         "test": "mocha",
         "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
     },
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
         "@apispec/report": "*",
         "@babel/plugin-proposal-decorators": "^7.10.5",
@@ -30,10 +29,10 @@
         "mobx": "^5.15.6",
         "neutrino": "^9.4.0",
         "prop-types": "^15",
-        "react": "^16",
-        "react-dom": "^16",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
         "react-hot-loader": "^4",
-        "socket.io-client": "^2.2.0",
+        "socket.io-client": "^3.1.1",
         "styled-components": "^5.2.0",
         "webpack": "^4",
         "webpack-cli": "^3",

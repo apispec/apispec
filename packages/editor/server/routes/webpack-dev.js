@@ -13,7 +13,7 @@ export default {
         app.use(
             devMiddleware(compiler, {
                 publicPath: webpackConfig.output.publicPath,
-                logLevel: 'debug',
+                // logLevel: 'debug',
             })
         );
 
