@@ -3,6 +3,20 @@ const react = require('@neutrinojs/react');
 const mocha = require('@neutrinojs/mocha');
 const fs = require('fs');
 const path = require('path');
+const merge = require('deepmerge');
+const htmlEntities = require('html-entities');
+
+const reportFile = process.env.APISPEC_PROJECT
+    ? path.resolve(
+          process.cwd(),
+          process.env.APISPEC_PROJECT,
+          'report/index.json'
+      )
+    : path.resolve(__dirname, 'dev/data.json');
+
+if (process.env.NODE_ENV !== 'production') {
+    console.log('Using report file', reportFile);
+}
 
 module.exports = {
     options: {
@@ -48,18 +62,15 @@ module.exports = {
                     ? {
                           filename: 'index.html',
                           template: require.resolve('./dev/index.ejs'),
-                          data: fs
-                              .readFileSync(
-                                  path.join(__dirname, 'dev/data.json'),
-                                  'utf8'
-                              )
-                              .replace(/"/g, '&quot;'),
-                          config: fs
-                              .readFileSync(
+                          data: htmlEntities.encode(
+                              fs.readFileSync(reportFile, 'utf8')
+                          ),
+                          config: htmlEntities.encode(
+                              fs.readFileSync(
                                   path.join(__dirname, 'dev/config.json'),
                                   'utf8'
                               )
-                              .replace(/"/g, '&quot;'),
+                          ),
                       }
                     : false,
             style: {
@@ -97,6 +108,28 @@ module.exports = {
             neutrino.config.module
                 .rule('font')
                 .test(/\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/);
+
+            if (process.env.NODE_ENV !== 'production') {
+                neutrino.config
+                    .plugin('refresh')
+                    .use(
+                        require.resolve('@pmmmwh/react-refresh-webpack-plugin')
+                    );
+
+                neutrino.config.module
+                    .rule('compile')
+                    .use('babel')
+                    .tap((options) =>
+                        merge(options, {
+                            plugins: [require.resolve('react-refresh/babel')],
+                        })
+                    );
+
+                neutrino.config.resolve.alias.set(
+                    'react-dom',
+                    '@hot-loader/react-dom'
+                );
+            }
         },
     ],
 };
