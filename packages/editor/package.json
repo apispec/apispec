@@ -10,7 +10,7 @@
     },
     "scripts": {
         "start": "./index.js",
-        "dev": "node ./server/dev.js --dev",
+        "dev": "node ./server/dev.js",
         "test": "mocha",
         "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
     },

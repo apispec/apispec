@@ -4,7 +4,7 @@ import { init } from '@apispec/core';
 import config from '../cfg/config.js';
 
 const { js: beautify } = jsBeautify;
-const { opts } = await init(config.testDir);
+const { opts } = await init(config.projectDir);
 
 export default {
     onAction(action, emit) {

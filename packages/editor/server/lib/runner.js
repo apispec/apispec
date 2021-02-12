@@ -12,7 +12,7 @@ import reporter from './reporter.js';
 const report = 'report/index.json';
 
 function run(emit, opts) {
-    const cfg = resolve(config.testDir, '.mocharc.json');
+    const cfg = resolve(config.projectDir, '.mocharc.json');
     console.log(cfg);
     // eslint-disable-next-line global-require, import/no-dynamic-require
     const userOptions = fs.readJSONSync(cfg);
@@ -55,18 +55,18 @@ function run(emit, opts) {
     // delete require.cache[path.resolve('../barista-package/src/common.js')]
     // delete require.cache[path.resolve('../barista-package/src/hook.js')]
     // delete require.cache[path.resolve('../barista-package/index.js')]
-    const testDir = resolve(config.testDir, 'spec');
+    const specDir = resolve(config.projectDir, 'spec');
 
-    fs.access(testDir, fs.R_OK, (err) => {
+    fs.access(specDir, fs.R_OK, (err) => {
         if (err) {
-            console.error('ERROR', testDir);
+            console.error('ERROR', specDir);
             emit('action', {
                 type: 'mochaui/report',
                 data: initialReportState,
             });
         } else {
             // Add each .js file to the mocha instance
-            klawSync(testDir, {
+            klawSync(specDir, {
                 nodir: true,
                 filter: ({ path }) =>
                     path.substr(-3) === '.js' || path.substr(-4) === '.mjs',
