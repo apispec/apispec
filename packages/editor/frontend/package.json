@@ -1,19 +1,15 @@
 {
-    "name": "@apispec/editor-frontend",
+    "name": "@internal/frontend",
     "version": "1.0.0",
     "license": "MIT",
     "repository": "https://github.com/apispec/apispec",
     "author": "azahnen",
-    "bin": {
-        "live-editor": "./index.js"
-    },
+    "private": true,
     "scripts": {
-        "start": "./index.js",
-        "dev": "node ./server/dev.js --dev",
         "devserver": "webpack-dev-server --mode development",
         "build": "NODE_ENV=production webpack --mode production",
         "test": "mocha",
-        "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test"
+        "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src"
     },
     "dependencies": {},
     "devDependencies": {
@@ -26,6 +22,7 @@
         "@neutrinojs/react": "^9.4.0",
         "eslint": "^7",
         "eslint-config-prettier": "^7.2.0",
+        "html-entities": "^2.1.0",
         "mobx": "^5.15.6",
         "neutrino": "^9.4.0",
         "prop-types": "^15",

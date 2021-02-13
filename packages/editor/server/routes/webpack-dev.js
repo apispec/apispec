@@ -2,11 +2,13 @@ import path from 'path';
 import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../../../editor-frontend/webpack.config.js'; // ('dev');
+import webpackConfig from '../../frontend/webpack.config.js';
+import util from 'util';
+console.log('WEBPACK', util.inspect(webpackConfig, false, null));
 
 webpackConfig.entry.app.unshift('webpack-hot-middleware/client?reload=true');
 webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin());
-const compiler = webpack({ mode: 'production', ...webpackConfig });
+const compiler = webpack({ mode: 'development', ...webpackConfig });
 
 export default {
     addRoutes: (app) => {
@@ -24,7 +26,5 @@ export default {
                 path.resolve(path.join(webpackConfig.output.path, 'index.html'))
             );
         });
-
-        // app.use(middleware(compiler));
     },
 };

@@ -3,6 +3,7 @@ const react = require('@neutrinojs/react');
 const mocha = require('@neutrinojs/mocha');
 const fs = require('fs');
 const path = require('path');
+const htmlEntities = require('html-entities');
 
 const allowedModuleRegex = new RegExp(`^.*?\\/(@apispec|apispec)\\/.*?$`);
 
@@ -45,25 +46,17 @@ module.exports = {
         }),
 
         react({
-            html:
-                process.env.NODE_ENV !== 'production'
+            html: process.env.NODE_ENV !== 'production'
                     ? {
                           filename: 'index.html',
                           template: require.resolve('./dev/index.ejs'),
-                          data: fs
-                              .readFileSync(
-                                  path.join(__dirname, 'dev/data.json'),
-                                  'utf8'
-                              )
-                              .replace(/"/g, '&quot;'),
-                          config: fs
-                              .readFileSync(
+                          config: htmlEntities.encode(
+                              fs.readFileSync(
                                   path.join(__dirname, 'dev/config.json'),
                                   'utf8'
                               )
-                              .replace(/"/g, '&quot;'),
-                      }
-                    : false,
+                          ),
+                      } : false,
             style: {
                 extract: {
                     plugin: {
@@ -94,7 +87,7 @@ module.exports = {
 
             neutrino.config.module
                 .rule('compile')
-                .include.add(path.join(__dirname, '../'));
+                .include.add(path.join(__dirname, '../../report/src'));
         },
     ],
 };
