@@ -108,7 +108,7 @@ const SuiteCompact = ({
                 </Box>
             </Box>
             {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            <TestContainer>
+            <TestContainer ml={5}>
                 <Tests
                     uuid={uuid}
                     tests={tests}

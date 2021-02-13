@@ -2,11 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, AccordionSummary } from '@material-ui/core';
-import {
-    ChatBubbleOutline,
-    ExpandMore,
-    ArrowForwardIosRounded,
-} from '@material-ui/icons';
+import { ChatBubbleOutline, ExpandMore } from '@material-ui/icons';
 
 import Duration from '../../Duration';
 import IconLabel from '../../IconLabel';
@@ -32,15 +28,6 @@ const TestSummary = ({
             aria-controls='panel1a-content'
             id='panel1a-header'>
             <Box display='flex' flexGrow={1}>
-                {isNested && (
-                    <Box
-                        display='flex'
-                        alignItems='center'
-                        pr={2}
-                        color='text.secondary'>
-                        <ArrowForwardIosRounded />
-                    </Box>
-                )}
                 <Box display='flex' flexDirection='column' flexGrow={1}>
                     <Box display='flex' flexGrow={1}>
                         {isHook ? (
