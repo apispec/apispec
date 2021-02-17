@@ -7,7 +7,7 @@ import util from 'util';
 console.log('WEBPACK', util.inspect(webpackConfig, false, null));
 
 webpackConfig.entry.app.unshift('webpack-hot-middleware/client?reload=true');
-webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+//webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin());
 const compiler = webpack({ mode: 'development', ...webpackConfig });
 
 export default {

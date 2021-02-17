@@ -41,9 +41,8 @@ const remoteSchemaLoader = (baseUri, cache) => {
 
         return schema
             .then((schema) => {
-                return schema
-                    .replace(/\$href/g, '$ref') //TODO: bug in landingPage.json
-                    .replace(/title/g, 'titl'); //TODO: force fail, remove when done
+                return schema.replace(/\$href/g, '$ref'); //TODO: bug in landingPage.json
+                //.replace(/title/g, 'titl'); //TODO: force fail, remove when done
             })
             .then((schema) => {
                 return JSON.parse(schema);
@@ -59,9 +58,8 @@ const localSchemaLoader = (basePath, resources) => {
 
         return schema
             .then((schema) => {
-                return schema
-                    .replace(/\$href/g, '$ref') //TODO: bug in landingPage.json
-                    .replace(/title/g, 'titl'); //TODO: force fail, remove when done
+                return schema.replace(/\$href/g, '$ref'); //TODO: bug in landingPage.json
+                //.replace(/title/g, 'titl'); //TODO: force fail, remove when done
             })
             .then((schema) => {
                 return JSON.parse(schema);
@@ -130,9 +128,10 @@ export default (opts, chai) => ({
     // needs to be actual function for this to work
     compliesToSchema: function (
         file,
-        basePath = path.dirname(file),
+        basePath = path.dirname(file) + '/',
         useCache = true
     ) {
+        console.log('BASEPATH', basePath, path.basename(file));
         const schemaLoader = isUrl(basePath)
             ? remoteSchemaLoader(basePath, useCache ? opts.cache : null)
             : localSchemaLoader(basePath, opts.resources);
@@ -141,7 +140,7 @@ export default (opts, chai) => ({
 
         return {
             end: (done) =>
-                validateAgainstSchema(json, file, schemaLoader)
+                validateAgainstSchema(json, path.basename(file), schemaLoader)
                     .then((result) => {
                         createAssertion(result, context, opts.verbose);
                         done();
