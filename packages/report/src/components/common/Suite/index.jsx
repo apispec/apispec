@@ -142,16 +142,14 @@ const Suite = ({
             )}
             <Collapse in={expanded} timeout='auto' unmountOnExit>
                 {(hasTests || hasBeforeHooks || hasAfterHooks) && (
-                    <TestContainer>
-                        <Tests
-                            uuid={uuid}
-                            tests={tests}
-                            beforeHooks={beforeHooks}
-                            afterHooks={afterHooks}
-                            enableCode={enableCode}
-                            Test={Test}
-                        />
-                    </TestContainer>
+                    <Tests
+                        uuid={uuid}
+                        tests={tests}
+                        beforeHooks={beforeHooks}
+                        afterHooks={afterHooks}
+                        enableCode={enableCode}
+                        Test={Test}
+                    />
                 )}
                 {subSuites()}
             </Collapse>

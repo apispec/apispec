@@ -1,41 +1,14 @@
 /* eslint-disable max-len, no-nested-ternary  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Box, AccordionSummary } from '@material-ui/core';
-import { ChatBubbleOutline, ExpandMore } from '@material-ui/icons';
 
-import Duration from '../../Duration';
-import IconLabel from '../../IconLabel';
-import IconStatus from '../../IconStatus';
-import { Title, ErrorMessage } from '../../Test/styles';
-import { TestContainer } from '../styles';
+import { Box } from '@material-ui/core';
 import Tests from '../../Tests';
+import Expandable, { STATUS } from '../../Expandable';
+import { Summary } from '../../Result';
 
-const Container = styled(({ pass, fail, ...props }) => (
-    <TestContainer {...props} />
-))`
-    border-left: 3px solid
-        ${(props) =>
-            props.pass
-                ? props.theme.color.green500
-                : props.fail
-                ? props.theme.color.red500
-                : props.theme.color.grey};
-    box-shadow: none;
-
-    &::before {
-        display: none;
-    }
-
-    &:not(:last-child) {
-        border-bottom: 1px solid ${(props) => props.theme.palette.divider};
-    }
-
-    &.MuiExpansionPanel-root.Mui-expanded {
-        margin: 0;
-    }
-`;
+const getStatus = (pass, fail) =>
+    pass ? STATUS.ok : fail ? STATUS.error : STATUS.neutral;
 
 const SuiteCompact = ({
     title,
@@ -57,58 +30,23 @@ const SuiteCompact = ({
     const hasFailures = failures && failures.length > 0;
     const hasPending = pending && pending.length > 0;
 
+    const status = getStatus(hasPasses, hasFailures);
+
     return (
-        <Container
-            pass={hasPasses}
-            fail={hasFailures}
-            display='flex'
-            flexDirection='column'
-            flexGrow={1}>
-            <Box display='flex' flexGrow={1} p={2}>
-                {isHook ? (
-                    <span>hook</span>
-                ) : (
-                    <IconStatus
-                        status={
-                            hasPasses
-                                ? 'passed'
-                                : hasFailures
-                                ? 'failed'
-                                : hasPending
-                                ? 'pending'
-                                : 'skipped'
-                        }
-                        boxProps={{ mr: 2, fontSize: '1.5rem' }}
-                    />
-                )}
-                <Title truncate={!isExpanded} secondary={isHook}>
-                    {title}
-                </Title>
-                <Box display='flex'>
-                    {hasContext && (
-                        <IconLabel
-                            text=''
-                            color='text.hint'
-                            Icon={ChatBubbleOutline}
-                        />
-                    )}
-                    {!isHook && (
-                        <Duration
-                            expanded={isExpanded}
-                            pending={pending}
-                            ms={duration}
-                            color={
-                                isExpanded ? 'text.primary' : 'text.secondary'
-                            }
-                            hoverColor='text.primary'
-                            speed={speed}
-                            iconAfter
-                        />
-                    )}
-                </Box>
-            </Box>
-            {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            <TestContainer ml={5}>
+        <Expandable id={uuid} status={status}>
+            <Summary
+                title={title}
+                duration={duration}
+                speed={speed}
+                passed={hasPasses}
+                failed={hasFailures}
+                pending={hasPending}
+                errorMessage={errorMessage}
+                isHook={isHook}
+                isExpanded={isExpanded}
+                hasContext={hasContext}
+            />
+            <Box ml={5}>
                 <Tests
                     uuid={uuid}
                     tests={tests}
@@ -118,8 +56,8 @@ const SuiteCompact = ({
                     isNested
                     Test={Test}
                 />
-            </TestContainer>
-        </Container>
+            </Box>
+        </Expandable>
     );
 };
 

@@ -37,7 +37,7 @@ export const Card = styled(MuiCard)`
 `;
 
 export const TestContainer = styled(Box)`
-    border-top: 1px solid ${(props) => props.theme.palette.divider};
+    border-top: 1px solid black;
 `;
 
 export const Title = ({ title }) => (
