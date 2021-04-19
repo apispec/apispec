@@ -1,0 +1,35 @@
+/**
+ * Custom Styles here.
+ *
+ * ref：https://v1.vuepress.vuejs.org/config/#index-styl
+ */
+
+.home .hero img
+  max-width 450px!important
+
+.navbar, .nav-links, .navbar .links
+  background-color $navbarBgColor !important
+.navbar
+  .site-name, a  
+    color $navbarColor !important
+@media (min-width: $MQMobile)
+  .nav-links a
+    &:hover, &.router-link-active
+      color $navbarColor !important
+
+.home
+  .hero
+    .action-button
+      background-color $navbarBgColor !important
+      border-bottom 1px solid darken($navbarBgColor, 10%) !important
+      &:hover
+        background-color lighten($navbarBgColor, 10%) !important
+
+.search-box
+  .suggestion
+    a
+      color $navbarBgColor !important
+    &.focused
+      background-color #f3f4f5 !important
+      a
+        color $accentColor !important

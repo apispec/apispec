@@ -1,21 +1,24 @@
 {
-  "name": "apispec",
-  "private": true,
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "create-spec": "create-spec",
-    "postinstall": "patch-package --patch-dir ./packages/core/patches"
-  },
-  "devDependencies": {
-    "@neutrinojs/airbnb-base": "^9.4.0",
-    "eslint": "^7.9.0",
-    "eslint-config-prettier": "^7.2.0",
-    "lerna": "^3.16.4",
-    "neutrino": "^9.4.0",
-    "prettier": "^2.1.1"
-  },
-  "workspaces": [
-    "packages/*",
-    "packages/editor/frontend"
-  ]
+    "name": "apispec",
+    "private": true,
+    "scripts": {
+        "bootstrap": "lerna bootstrap",
+        "create-spec": "create-spec",
+        "postinstall": "patch-package --patch-dir ./packages/core/patches",
+        "docsDev": "vuepress dev docs",
+        "docsBuild": "vuepress build docs"
+    },
+    "devDependencies": {
+        "@neutrinojs/airbnb-base": "^9.4.0",
+        "eslint": "^7.9.0",
+        "eslint-config-prettier": "^7.2.0",
+        "lerna": "^3.16.4",
+        "neutrino": "^9.4.0",
+        "prettier": "^2.1.1",
+        "vuepress": "^1.5.3"
+    },
+    "workspaces": [
+        "packages/*",
+        "packages/editor/frontend"
+    ]
 }
