@@ -15,7 +15,7 @@ export const STATUS = Object.freeze({
     none: 'none',
 });
 
-const StyledExpandable = styled(({ status, ...props }) => (
+const StyledExpandable = styled(({ status, nested, ...props }) => (
     <Accordion {...props} />
 ))`
     ${({ status, theme }) =>
@@ -34,6 +34,18 @@ const StyledExpandable = styled(({ status, ...props }) => (
                     : theme.color.grey50};
         `};
 
+    ${({ nested, theme }) =>
+        nested &&
+        css`
+            border-left: 1px solid ${theme.palette.divider};
+            border-bottom: 1px solid ${theme.palette.divider};
+            margin: ${theme.spacing(0, 0, 2, 2)};
+
+            &.Mui-expanded {
+                margin: ${theme.spacing(0, 0, 2, 2)};
+            }
+        `};
+
     box-shadow: none;
 
     &::before {
@@ -47,7 +59,22 @@ const StyledExpandable = styled(({ status, ...props }) => (
     }
 
     &.MuiExpansionPanel-root.Mui-expanded {
+        //margin: 0;
+    }
+
+    & .MuiAccordionSummary-root {
+        align-items: flex-end;
+        padding: 0;
+    }
+    & .MuiAccordionSummary-content {
+        //padding-right: 48px;
+        margin: ${({ theme }) => theme.spacing(1, 0, 1, 2)};
+    }
+    & .MuiAccordionSummary-expandIcon {
         margin: 0;
+        //position: absolute;
+        //bottom: 0;
+        //right: 0;
     }
 
     &.Mui-disabled {
@@ -66,7 +93,7 @@ const StyledExpandable = styled(({ status, ...props }) => (
     }
 `;
 
-const Expandable = ({ id, status, disabled, children, onToggle }) => {
+const Expandable = ({ id, status, nested, disabled, children, onToggle }) => {
     const [expanded, toggleExpanded] = useToggle(false);
 
     const toggleExpandedState = () => {
@@ -85,6 +112,7 @@ const Expandable = ({ id, status, disabled, children, onToggle }) => {
             disabled={disabled}
             expanded={expanded}
             status={status}
+            nested={nested}
             onChange={toggleExpandedState}>
             {children}
         </StyledExpandable>
@@ -100,7 +128,7 @@ Expandable.propTypes = {
 };
 
 Expandable.defaultProps = {
-    status: null,
+    status: STATUS.none,
     disabled: false,
     children: [],
     onToggle: () => {},

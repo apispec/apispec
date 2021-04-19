@@ -1,26 +1,31 @@
 /* eslint-disable max-len, no-nested-ternary  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, AccordionSummary } from '@material-ui/core';
-import { ChatBubbleOutline, ExpandMore } from '@material-ui/icons';
 
-import Duration from '../../Duration';
-import IconLabel from '../../IconLabel';
-import IconStatus from '../../IconStatus';
-import { Title, ErrorMessage } from '../styles';
+import { Box, AccordionSummary } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
+import SummarySmall from './Small';
+import SummaryBig from './Big';
 
 const ResultSummary = ({
     title,
+    description,
     duration,
     speed,
     passed,
     failed,
+    pended,
+    passes,
+    failures,
+    skipped,
     pending,
     errorMessage,
     isHook,
     isExpanded,
-    hasContext,
-    small,
+    smaller,
+    bigger,
+    Actions,
+    Chart,
 }) => {
     return (
         <AccordionSummary
@@ -28,59 +33,34 @@ const ResultSummary = ({
             aria-controls='panel1a-content'
             id='panel1a-header'>
             <Box display='flex' flexGrow={1}>
-                <Box display='flex' flexDirection='column' flexGrow={1}>
-                    <Box display='flex' flexGrow={1}>
-                        {isHook ? (
-                            <span>hook</span>
-                        ) : (
-                            <IconStatus
-                                status={
-                                    passed
-                                        ? 'passed'
-                                        : failed
-                                        ? 'failed'
-                                        : pending
-                                        ? 'pending'
-                                        : 'skipped'
-                                }
-                                boxProps={{
-                                    mr: 2,
-                                    fontSize: small ? '1rem' : '1.5rem',
-                                }}
-                            />
-                        )}
-                        <Title truncate={!isExpanded} secondary={isHook}>
-                            {title}
-                        </Title>
-                        <Box display='flex'>
-                            {hasContext && (
-                                <IconLabel
-                                    text=''
-                                    color='text.hint'
-                                    Icon={ChatBubbleOutline}
-                                />
-                            )}
-                            {!isHook && (
-                                <Duration
-                                    expanded={isExpanded}
-                                    pending={pending}
-                                    ms={duration}
-                                    color={
-                                        isExpanded
-                                            ? 'text.primary'
-                                            : 'text.secondary'
-                                    }
-                                    hoverColor='text.primary'
-                                    speed={speed}
-                                    iconAfter
-                                />
-                            )}
-                        </Box>
-                    </Box>
-                    {!!errorMessage && (
-                        <ErrorMessage>{errorMessage}</ErrorMessage>
-                    )}
-                </Box>
+                {bigger ? (
+                    <SummaryBig
+                        title={title}
+                        description={description}
+                        duration={duration}
+                        speed={speed}
+                        passes={passes}
+                        failures={failures}
+                        pending={pending}
+                        skipped={skipped}
+                        errorMessage={errorMessage}
+                        isHook={isHook}
+                        isExpanded={isExpanded}
+                    />
+                ) : (
+                    <SummarySmall
+                        title={title}
+                        duration={duration}
+                        speed={speed}
+                        passed={passed}
+                        failed={failed}
+                        pending={pended}
+                        errorMessage={errorMessage}
+                        isHook={isHook}
+                        isExpanded={isExpanded}
+                        smaller={smaller}
+                    />
+                )}
             </Box>
         </AccordionSummary>
     );
@@ -97,7 +77,7 @@ ResultSummary.propTypes = {
     isHook: PropTypes.bool,
     isExpanded: PropTypes.bool,
     hasContext: PropTypes.bool,
-    small: PropTypes.bool,
+    smaller: PropTypes.bool,
 };
 
 ResultSummary.defaultProps = {
@@ -110,7 +90,7 @@ ResultSummary.defaultProps = {
     isHook: false,
     isExpanded: false,
     hasContext: false,
-    small: false,
+    smaller: false,
 };
 
 ResultSummary.displayName = 'ResultSummary';

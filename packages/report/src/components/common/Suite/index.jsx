@@ -14,11 +14,16 @@ import {
 import Chart from './Chart';
 import SuiteCompact from './Compact';
 import Tests from '../Tests';
+import Expandable, { STATUS } from '../Expandable';
+import { Summary, getStats } from '../Result';
 // import TestListMui from '../test/list-mui';
 // import SuiteListMui from './list-mui'
 // import SuiteSummaryMui from './summary-mui'
 
 import { useToggle } from '../../../style/base';
+
+const getStatus = (pass, fail) =>
+    pass ? STATUS.ok : fail ? STATUS.error : STATUS.neutral;
 
 const Suite = ({
     suite,
@@ -26,6 +31,7 @@ const Suite = ({
     enableCode,
     isMain,
     compact,
+    level,
     TitleComponent,
     DescriptionComponent,
     Actions,
@@ -37,6 +43,10 @@ const Suite = ({
         rootEmpty,
         suites,
         tests,
+        passes,
+        failures,
+        pending,
+        skipped,
         beforeHooks,
         afterHooks,
         uuid,
@@ -48,19 +58,31 @@ const Suite = ({
 
     const { description = '' } = options;
 
-    const hasSuites = suites && suites.length > 0;
-    const hasTests = tests && tests.length > 0;
-    const hasPasses = suite.passes && suite.passes.length > 0;
-    const hasFailures = suite.failures && suite.failures.length > 0;
-    const hasPending = suite.pending && suite.pending.length > 0;
-    const hasSkipped = suite.skipped && suite.skipped.length > 0;
-    const hasBeforeHooks = beforeHooks && beforeHooks.length > 0;
-    const hasAfterHooks = afterHooks && afterHooks.length > 0;
-    //    const totalTests = hasTests ? tests.length : 0;
-    const totalPasses = hasPasses ? suite.passes.length : 0;
-    const totalFailures = hasFailures ? suite.failures.length : 0;
-    const totalPending = hasPending ? suite.pending.length : 0;
-    const totalSkipped = hasSkipped ? suite.skipped.length : 0;
+    const {
+        hasPasses,
+        hasFailures,
+        hasPending,
+        hasSkipped,
+        hasBeforeHooks,
+        hasAfterHooks,
+        hasSuites,
+        hasTests,
+        totalPasses,
+        totalFailures,
+        totalPending,
+        totalSkipped,
+    } = getStats(
+        passes,
+        failures,
+        pending,
+        skipped,
+        beforeHooks,
+        afterHooks,
+        suites,
+        tests
+    );
+
+    const status = getStatus(hasPasses, hasFailures);
 
     const subSuiteProps = {
         enableChart,
@@ -80,6 +102,7 @@ const Suite = ({
                       key={subsuite.uuid}
                       suite={subsuite}
                       isMain={isMain2}
+                      level={level + 1}
                       Test={Test}
                       {...subsuite}
                       {...subSuiteProps}
@@ -90,6 +113,7 @@ const Suite = ({
                       key={subsuite.uuid}
                       suite={subsuite}
                       isMain={isMain2}
+                      level={level + 1}
                       {...subSuiteProps}
                   />
               )));
@@ -117,7 +141,7 @@ const Suite = ({
         return subSuites(true);
     }
 
-    return (
+    return isMain ? (
         <Card id={uuid} raised={isMain} square>
             <CardContent>
                 <Box>
@@ -154,6 +178,39 @@ const Suite = ({
                 {subSuites()}
             </Collapse>
         </Card>
+    ) : (
+        <Expandable id={uuid} nested>
+            <Summary
+                title={title}
+                description={description}
+                duration={duration}
+                passed={hasPasses && !hasFailures}
+                failed={hasFailures}
+                pended={
+                    hasPending || (hasSkipped && !hasPasses && !hasFailures)
+                }
+                passes={totalPasses}
+                failures={totalFailures}
+                pending={totalPending}
+                skipped={totalSkipped}
+                isExpanded={expanded}
+                hasContext
+                bigger
+            />
+            <Box>
+                {(hasTests || hasBeforeHooks || hasAfterHooks) && (
+                    <Tests
+                        uuid={uuid}
+                        tests={tests}
+                        beforeHooks={beforeHooks}
+                        afterHooks={afterHooks}
+                        enableCode={enableCode}
+                        Test={Test}
+                    />
+                )}
+                {subSuites()}
+            </Box>
+        </Expandable>
     );
 };
 
@@ -161,6 +218,7 @@ Suite.propTypes = {
     suite: PropTypes.shape().isRequired,
     isMain: PropTypes.bool,
     compact: PropTypes.bool,
+    level: PropTypes.number,
     enableChart: PropTypes.bool,
     enableCode: PropTypes.bool,
     TitleComponent: PropTypes.elementType,
@@ -172,6 +230,7 @@ Suite.propTypes = {
 Suite.defaultProps = {
     isMain: false,
     compact: false,
+    level: 0,
     enableChart: false,
     enableCode: false,
     TitleComponent: Title,

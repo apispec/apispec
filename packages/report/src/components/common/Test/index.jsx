@@ -60,7 +60,7 @@ const Test = ({ test, enableCode, isNested }) => {
                 isHook={isHook}
                 isExpanded={expanded}
                 hasContext={!!context}
-                small={isNested}
+                smaller={isNested}
             />
             <Details
                 description={description}
